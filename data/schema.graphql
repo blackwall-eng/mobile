@@ -1,0 +1,23 @@
+schema {
+  query: Query
+}
+
+type Activity implements Node {
+  id: ID!
+  text: String
+}
+
+interface Node {
+  id: ID!
+}
+
+type Query {
+  node(id: ID!): Node
+  viewer: User
+}
+
+type User implements Node {
+  id: ID!
+  name: String
+  activity(id: String = "1"): Activity
+}

@@ -1,0 +1,34 @@
+language: objective-c
+osx_image: xcode7.1
+
+env:
+  - PLATFORM=android
+  - PLATFORM=ios
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  ccache: true
+  cocoapods: true
+  directories:
+    - node_modules
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+before_install:
+  - chmod +x fastlane/travis-build-script.sh
+  - chmod +x fastlane/travis-deploy-script.sh
+  - gem install xcov --no-ri --no-rdoc --no-document
+  - gem update fastlane --no-ri --no-rdoc --no-document
+  - gem install badge --no-ri --no-rdoc --no-document
+
+install:
+  - brew install gradle flow watchman xctool android-sdk
+  - export ANDROID_HOME=/usr/local/opt/android-sdk
+  - echo y | android update sdk -u --all --filter platform-tools,android-23,addon-google_apis-google-23,build-tools-23.0.1,extra-android-m2repository
+  - npm install
+
+script: fastlane/travis-build-script.sh
+
+after_success: fastlane/travis-deploy-script.sh

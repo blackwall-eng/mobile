@@ -1,0 +1,199 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+fastlane_version "1.94.1"
+
+default_platform :ios
+
+# Constants
+APP_NAME = "Blackwall"
+APP_DISPLAYNAME = "Blackwall"
+IPA_NAME = "#{APP_DISPLAYNAME}.ipa"
+XCODEPROJ = "./ios/#{APP_NAME}.xcodeproj"
+XCWORKSPACE = "./ios/#{APP_NAME}.xcworkspace"
+
+FASTLANE_DIR = "./fastlane"
+FASTLANE_IPA_DIR = "#{FASTLANE_DIR}/output"
+FASTLANE_IPA_PATH = "#{FASTLANE_IPA_DIR}/#{IPA_NAME}"
+FASTLANE_CERTS_DIR = "#{FASTLANE_DIR}/certs"
+FASTLANE_PROFILES_DIR = "#{FASTLANE_DIR}/profiles"
+
+
+def changelog
+  # http://git-scm.com/docs/pretty-formats
+  # <short hash> <commit title>
+  return changelog_from_git_commits(pretty: '- (%an)[%ar] %s')
+end
+
+platform :ios do
+  before_all do
+    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+
+    # ensure_git_status_clean
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    scan(
+        workspace: XCWORKSPACE,
+        scheme: APP_NAME,
+        code_coverage: true
+    )
+  end
+
+  lane :prepare_deploy do
+    increment_build_number(
+      build_number: number_of_commits,
+      xcodeproj: XCODEPROJ
+    )
+
+    badge(dark: true, shield: "#{get_version_number(xcodeproj: XCODEPROJ)}-#{get_build_number(xcodeproj: XCODEPROJ)}", shield_no_resize: true)
+
+    cert
+
+    ## Generate adhoc provisioning profile
+    sigh(
+      adhoc: true,
+      output_path: FASTLANE_PROFILES_DIR,
+    )
+    ## Use the UDID of the newly created provisioning profile
+    ENV["PROFILE_UDID"] = lane_context[SharedValues::SIGH_UDID]
+
+    gym(
+      clean: true,
+      workspace: XCWORKSPACE,
+      scheme: APP_NAME,
+      configuration: "Release",
+      output_directory: FASTLANE_IPA_DIR,
+      output_name: IPA_NAME,
+    )
+
+    # git_add(path: ["."])
+    # git_commit(
+    #  path: ["."],
+    #  message: "#{APP_DISPLAYNAME} #{version} (#{build})",
+    # )
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight and Fabric"
+  desc "This will also make sure the profile is up to date"
+  lane :beta do
+    prepare_deploy
+    
+    # deploy to HockeyApp
+    hockey(
+        api_token: ENV["HOCKEY_API_TOKEN_IOS"],
+        ipa: FASTLANE_IPA_PATH,
+        notes: changelog
+    )
+    
+    # deploy to testflight
+    # pilot
+  end
+
+  desc "Deploy a new version to the App Store"
+  lane :appstore do
+    # match(type: "appstore")
+    # snapshot
+    prepare_deploy
+    deliver(force: true)
+    # frameit
+  end
+
+  desc "Tag a new version e.g. fastlane version minor:true"
+  lane :version do |options|
+    if options[:major]
+      increment_version_number(
+        bump_type: "major",
+        xcodeproj: XCODEPROJ,
+      )
+    end
+​
+    if options[:minor]
+      increment_version_number(
+        bump_type: "minor",
+        xcodeproj: XCODEPROJ,
+      )
+    end
+​
+    if options[:patch]
+      increment_version_number(
+        bump_type: "patch",
+        xcodeproj: XCODEPROJ,
+      )
+    end
+​
+    ## git commit
+    commit_version_bump(
+      message: "#{APP_DISPLAYNAME} #{version}",
+      xcodeproj: XCODEPROJ,
+    )
+​
+    ## git tag for versions
+    add_git_tag(
+      tag: version,
+    )
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end
+
+platform :android do
+  before_all do
+    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+
+    # ensure_git_status_clean
+  end
+  
+  desc "Run the tests"
+  lane :test do
+    gradle(
+      task: "connectedCheck",
+      project_dir: "android/",
+      properties: {
+      }
+    )
+  end  
+
+  desc "Deploy a new version to Crashlytics"
+  lane :beta do
+    gradle(
+      task: "assemble",
+      build_type: "Release",
+      project_dir: "android/",
+      properties: {
+      }
+    )
+
+    # deploy to HockeyApp
+    hockey(
+        api_token: ENV["HOCKEY_API_TOKEN_ANDROID"],
+        apk: "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}",
+        notes: changelog
+    )
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+
+# fastlane reports which actions are used
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer
