@@ -9,16 +9,19 @@ import {
   Text
 } from 'react-native';
 
+import EventListItem from './EventListItem';
+
 class Events extends Component {
 
   render() {
     const { edges } = this.props.viewer.events;
     console.log('events', edges);
-    const eventsList = edges.map(event => (<Text key={event.node.id} style={styles.header}>{event.node.title}</Text>));
+    const eventsList = edges.map(event => {
+      return (<EventListItem key={event.node.id} event={event.node} />)
+    });
 
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Hallo</Text>
         {eventsList}
       </View>
     );
@@ -33,7 +36,7 @@ export default Relay.createContainer(Events, {
           edges {
             node {
               id,
-              title
+              ${EventListItem.getFragment('event')}
             }
           }
         }
@@ -44,13 +47,6 @@ export default Relay.createContainer(Events, {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
     flex: 1,
-  },
-  header: {
-    alignSelf: 'center',
-    color: 'white',
-    fontSize: 14,
-    paddingTop: 20
   },
 });
