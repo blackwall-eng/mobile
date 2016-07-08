@@ -13,12 +13,13 @@ class EventListItem extends Component {
 
   render() {
     const { event } = this.props;
-    console.log('event', event);
 
     return (
       <View style={styles.container}>
-        <Text key={event.id} style={styles.header}>
+        <Text style={styles.title}>
           {event.title}
+        </Text>
+        <Text style={styles.subtitle}>
           {event.subtitle}
         </Text>
       </View>
@@ -42,9 +43,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     margin: 10,
+    padding: 5
   },
-  header: {
+  title: {
     color: 'black',
-    fontSize: 14,
+    fontSize: 18,
+    marginBottom: 4
   },
+  subtitle: {
+    color: 'black',
+    fontSize: 12
+  }
 });

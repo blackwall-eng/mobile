@@ -105,7 +105,7 @@ export default Relay.createContainer(App, {
 
 const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
   navBarText: {
     fontSize: 16,
