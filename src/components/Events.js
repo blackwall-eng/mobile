@@ -15,7 +15,7 @@ class Events extends Component {
 
   render() {
     const { edges } = this.props.viewer.events;
-    console.log('events', edges);
+
     const eventsList = edges.map(event => {
       return (<EventListItem key={event.node.id} event={event.node} />)
     });
@@ -32,7 +32,7 @@ export default Relay.createContainer(Events, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        events(first: 6) {
+        events(first: 9) {
           edges {
             node {
               id,

@@ -20,7 +20,7 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={goToEvents}>
-          <Text style={styles.header}>Surprise Me!</Text>
+          <Text style={styles.surpriseMe}>Surprise Me!</Text>
         </TouchableOpacity>
       </View>
     );
@@ -30,11 +30,15 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  header: {
-    alignSelf: 'center',
+  surpriseMe: {
     color: 'white',
+    marginTop: 100,
     fontSize: 30,
-    paddingTop: 200
+    borderWidth: 1,
+    borderColor: 'white',
+    padding: 5
   },
 });
