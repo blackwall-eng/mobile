@@ -51,12 +51,8 @@ platform :ios do
 
     badge(dark: true, shield: "#{get_version_number(xcodeproj: XCODEPROJ)}-#{get_build_number(xcodeproj: XCODEPROJ)}", shield_no_resize: true)
 
-    cert
-
-    ## Generate adhoc provisioning profile
+    ## Fetch adhoc provisioning profile
     match(type: "adhoc")
-    ## Use the UDID of the newly created provisioning profile
-    ENV["PROFILE_UDID"] = lane_context[SharedValues::SIGH_UDID]
 
     gym(
       clean: true,
