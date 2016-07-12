@@ -22,6 +22,8 @@ class Events extends Component {
 
     return (
       <View style={styles.container}>
+        <View style={styles.containerTwo}>
+        </View>
         {eventsList}
       </View>
     );
@@ -32,7 +34,7 @@ export default Relay.createContainer(Events, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        events(first: 9) {
+        events(first: 10) {
           edges {
             node {
               id,
@@ -48,5 +50,8 @@ export default Relay.createContainer(Events, {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  containerTwo: {
+    marginTop: 110,
   },
 });
