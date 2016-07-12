@@ -15,7 +15,10 @@ class EventListItem extends Component {
     const { event } = this.props;
 
     return (
+
       <View style={styles.container}>
+
+      <View style={styles.circle}/>
         <Text style={styles.title}>
           {event.title}
         </Text>
@@ -42,16 +45,32 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     flex: 1,
-    margin: 10,
-    padding: 5
+    marginBottom: 1,
+    paddingTop: 22,
+    paddingRight: 20,
+    paddingLeft: 60,
+    paddingBottom: 13,
   },
   title: {
-    color: 'black',
-    fontSize: 18,
-    marginBottom: 4
+    fontFamily: 'Helvetica',
+    fontWeight: '500',
+    color: '#252525',
+    fontSize: 16,
+    marginBottom: 2
   },
   subtitle: {
-    color: 'black',
-    fontSize: 12
+    color: 'grey',
+    fontSize: 14,
+  },
+  circle: {
+    flex: 0,
+    backgroundColor: '#00AFFF',
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    marginLeft: -31,
+    marginTop: 14,
+    position: 'absolute',
+
   }
 });

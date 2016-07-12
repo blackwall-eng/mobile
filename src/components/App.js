@@ -6,6 +6,8 @@ import {
   Navigator,
   View,
   Text,
+  Image,
+  StatusBar,
   TouchableOpacity,
   StyleSheet,
   ScrollView
@@ -31,7 +33,7 @@ class App extends Component {
                   } else if (props) {
                     return <Events navigator={navigator} {...props} />;
                   } else {
-                    return <Text>Loading...</Text>;
+                    return <Text></Text>;
                   }
                 }
                 return (
@@ -47,8 +49,13 @@ class App extends Component {
         }
 
         return (
+
           <ScrollView style={styles.scene}>
+          <StatusBar barStyle="light-content" />
             {getContentView()}
+
+            <Image source={{uri: 'http://www.blackwall.co/style/img/clouds.png'}} style={styles.stars} />
+
           </ScrollView>
         )
     }
@@ -64,7 +71,7 @@ class App extends Component {
             onPress={() => navigator.pop()}
             style={styles.navBarLeftButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
-              Back
+               Back
             </Text>
           </TouchableOpacity>
         );
@@ -105,7 +112,7 @@ export default Relay.createContainer(App, {
 
 const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(37, 37, 37, 0.9)',
   },
   navBarText: {
     fontSize: 16,
@@ -118,6 +125,12 @@ const styles = StyleSheet.create({
   scene: {
     flex: 1,
     paddingTop: 64,
-    backgroundColor: 'black',
+    backgroundColor: 'rgba(37, 37, 37, 1)',
+  },
+  stars: {
+    flex:0,
+    width: null,
+    height: null,
+    resizeMode: 'cover'
   },
 });
