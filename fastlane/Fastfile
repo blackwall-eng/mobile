@@ -49,7 +49,7 @@ platform :ios do
       xcodeproj: XCODEPROJ
     )
 
-    badge(dark: true, shield: "#{get_version_number(xcodeproj: XCODEPROJ)}-#{get_build_number(xcodeproj: XCODEPROJ)}", shield_no_resize: true)
+    badge(shield: "#{get_version_number(xcodeproj: XCODEPROJ)}-#{get_build_number(xcodeproj: XCODEPROJ)}", shield_no_resize: true)
 
     ## Fetch adhoc provisioning profile
     match(type: "adhoc")
