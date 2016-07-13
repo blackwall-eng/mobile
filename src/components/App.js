@@ -17,6 +17,8 @@ import Home from './Home';
 import Events from './Events';
 import AppRoute from '../routes/AppRoute';
 
+import StarsImage from './stars.png';
+
 class App extends Component {
   render() {
     const navigationToScene = (route, navigator) => {
@@ -49,14 +51,13 @@ class App extends Component {
         }
 
         return (
+          <Image source={StarsImage} style={styles.stars}>
+            <StatusBar barStyle="light-content" />
 
-          <ScrollView style={styles.scene}>
-          <StatusBar barStyle="light-content" />
-            {getContentView()}
-
-            <Image source={{uri: 'http://www.blackwall.co/style/img/clouds.png'}} style={styles.stars} />
-
-          </ScrollView>
+            <ScrollView style={styles.scene}>
+              {getContentView()}
+            </ScrollView>
+          </Image>
         )
     }
 
@@ -125,12 +126,12 @@ const styles = StyleSheet.create({
   scene: {
     flex: 1,
     paddingTop: 64,
-    backgroundColor: 'rgba(37, 37, 37, 1)',
   },
   stars: {
-    flex:0,
+    flex: 1,
     width: null,
     height: null,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
+    backgroundColor: 'rgba(37, 37, 37, 1)'
   },
 });
