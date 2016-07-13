@@ -19,8 +19,9 @@ export default class Home extends Component {
 
     return (
       <View style={styles.container}>
+          <Text style={styles.iWantTo}>I want to</Text>
         <TouchableOpacity onPress={goToEvents}>
-          <Text style={styles.surpriseMe}>Surprise Me!</Text>
+          <Text style={styles.surpriseMe}>do something</Text>
         </TouchableOpacity>
       </View>
     );
@@ -33,12 +34,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  iWantTo: {
+    color: 'white',
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    marginTop: 200,
+    height: 50,
+    fontSize: 25,
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingLeft: 20
+  },
   surpriseMe: {
     color: 'white',
-    marginTop: 100,
-    fontSize: 30,
-    borderWidth: 1,
-    borderColor: 'white',
-    padding: 5
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    height: 50,
+    fontSize: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingLeft: 20,
+    borderRadius: 26
   },
 });

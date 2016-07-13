@@ -6,6 +6,8 @@ import {
   Navigator,
   View,
   Text,
+  Image,
+  StatusBar,
   TouchableOpacity,
   StyleSheet,
   ScrollView
@@ -14,6 +16,8 @@ import {
 import Home from './Home';
 import Events from './Events';
 import AppRoute from '../routes/AppRoute';
+
+import StarsImage from './stars.png';
 
 class App extends Component {
   render() {
@@ -31,7 +35,7 @@ class App extends Component {
                   } else if (props) {
                     return <Events navigator={navigator} {...props} />;
                   } else {
-                    return <Text>Loading...</Text>;
+                    return <Text></Text>;
                   }
                 }
                 return (
@@ -47,9 +51,13 @@ class App extends Component {
         }
 
         return (
-          <ScrollView style={styles.scene}>
-            {getContentView()}
-          </ScrollView>
+          <Image source={StarsImage} style={styles.stars}>
+            <StatusBar barStyle="light-content" />
+
+            <ScrollView style={styles.scene}>
+              {getContentView()}
+            </ScrollView>
+          </Image>
         )
     }
 
@@ -64,7 +72,7 @@ class App extends Component {
             onPress={() => navigator.pop()}
             style={styles.navBarLeftButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
-              Back
+               Back
             </Text>
           </TouchableOpacity>
         );
@@ -105,7 +113,7 @@ export default Relay.createContainer(App, {
 
 const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(37, 37, 37, 0.9)',
   },
   navBarText: {
     fontSize: 16,
@@ -118,6 +126,12 @@ const styles = StyleSheet.create({
   scene: {
     flex: 1,
     paddingTop: 64,
-    backgroundColor: 'black',
+  },
+  stars: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'cover',
+    backgroundColor: 'rgba(37, 37, 37, 1)'
   },
 });
