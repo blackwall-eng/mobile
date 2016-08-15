@@ -1,4 +1,4 @@
-package com.blackwall;
+package co.blackwall;
 
 import com.facebook.react.ReactActivity;
 

@@ -1,4 +1,4 @@
-package com.blackwall;
+package co.blackwall;
 
 import android.app.Application;
 import android.util.Log;
