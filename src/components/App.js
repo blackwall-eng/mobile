@@ -10,7 +10,9 @@ import {
   StatusBar,
   TouchableOpacity,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  PanResponder,
+  Dimensions
 } from 'react-native';
 
 import Home from './Home';
@@ -20,6 +22,58 @@ import AppRoute from '../routes/AppRoute';
 import StarsImage from './stars.png';
 
 class App extends Component {
+
+  constructor() {
+    super();
+    this._swipedx = 0;
+    this._swipedy = 0;
+    this.state = {
+      'currentView': 'Home'
+    };
+  }
+
+  componentWillMount() {
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      // onPanResponderMove: (evt, gestureState) => true,
+      onPanResponderRelease: (evt, gestureState) =>
+        this._handleOnPanResponderEnd(evt,gestureState),
+      onPanResponderTerminate: (evt, gestureState) =>
+        this._handleOnPanResponderEnd(evt, gestureState),
+      onShouldBlockNativeResponder: (evt, gestureState) => false
+    })
+  }
+
+  _handleOnPanResponderEnd(evt, gestureState) {
+    const {height, width} = Dimensions.get('window');
+    let swipex = Math.abs(gestureState.dx);
+    let swipey = Math.abs(gestureState.dy);
+    if(swipex > swipey && swipex > width/2) {
+      if(gestureState.dx > 0) {
+        this._handleSwipeRight()
+      } else {
+        this._handleSwipeLeft()
+      }
+    }
+  }
+
+  _handleSwipeLeft() {
+    if(this.state.currentRoute !== 'Profile') {
+      this.setState({currentRoute: 'Profile'});
+      this.navigator.push({name: 'Profile'});
+    }
+  }
+
+  _handleSwipeRight() {
+    if(this.state.currentRoute !== 'Home') {
+      this.setState({currentRoute: 'Home'})
+      this.navigator.resetTo({name: 'Home'});
+    }
+  }
+
   render() {
     const navigationToScene = (route, navigator) => {
         const getContentView = () => {
@@ -47,16 +101,21 @@ class App extends Component {
                     render={renderComponent}
                     />
                 );
+              case 'Profile':
+                return (
+                  <View>
+                    <Text style={{color: 'white'}}>Profile</Text>
+                  </View>
+                );
           }
         }
 
         return (
-          <Image source={StarsImage} style={styles.stars}>
+          <Image source={StarsImage} style={styles.stars} {...this._panResponder.panHandlers}>
             <StatusBar barStyle="light-content" />
-
-            <ScrollView style={styles.scene}>
+            <View>
               {getContentView()}
-            </ScrollView>
+            </View>
           </Image>
         )
     }
@@ -87,7 +146,11 @@ class App extends Component {
       <Navigator
         initialRoute={{name:  'Home'}}
         renderScene={navigationToScene}
-        configureScene={() => Navigator.SceneConfigs.VerticalUpSwipeJump}
+        configureScene={(route) => ({
+          ...route.sceneConfig || Navigator.SceneConfigs.VerticalUpSwipeJump,
+          gestures: null
+        })}
+        ref={(c) => this.navigator = c}
         navigationBar={
           <Navigator.NavigationBar
             routeMapper={navigationBarRouteMapper}
