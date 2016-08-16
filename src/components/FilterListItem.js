@@ -27,7 +27,7 @@ export default class FilterListItem extends Component {
   }
 }
 
-/*export default Relay.createContainer(FilterListItem, {
+export default Relay.createContainer(FilterListItem, {
   fragments: {
     category: () => Relay.QL`
       fragment on Category {
@@ -36,7 +36,7 @@ export default class FilterListItem extends Component {
       }
     `,
   },
-});*/
+});
 
 const styles = StyleSheet.create({
   container: {

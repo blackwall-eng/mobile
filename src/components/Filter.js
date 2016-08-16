@@ -11,20 +11,13 @@ import {
 
 import FilterListItem from './FilterListItem';
 
-export default class Filter extends Component {
+class Filter extends Component {
 
   render() {
-    const categories = [{name: 'Enjoy', color: null},
-                        {name: 'Face', color: null},
-                      {name: 'Reflect', color: null},
-                    {name: 'crfeative', color: null},
-                  {name: 'crdeative', color: null},
-                {name: 'crseativfe', color: null},
-              {name: 'creativere', color: null}];
-    /*const { edges } = this.props.viewer.events;*/
+    const { edges } = this.props.viewer.categories;
 
-    const filterList = categories.map(category => {
-      return (<FilterListItem key={category.name} category={category} />)
+    const filterList = edges.map(category => {
+      return (<FilterListItem key={category.node.id} category={category.node} />)
     });
 
     return (
@@ -39,17 +32,22 @@ export default class Filter extends Component {
   }
 }
 
-/*export default Relay.createContainer(Filter, {
+export default Relay.createContainer(Filter, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        categories {
-          ${FilterListItem.getFragment('category')}
+        categories(first: 0) {
+          edges {
+            node {
+              id,
+              ${FilterListItem.getFragment('category')}
+            }
+          }
         }
       }
     `,
   },
-});*/
+});
 
 const styles = StyleSheet.create({
   container: {
