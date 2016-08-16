@@ -15,6 +15,7 @@ import {
 
 import Home from './Home';
 import Events from './Events';
+import Filter from './Filter';
 import AppRoute from '../routes/AppRoute';
 
 import StarsImage from './stars.png';
@@ -27,6 +28,10 @@ class App extends Component {
               case 'Home':
                 return (
                   <Home navigator={navigator} />
+                );
+              case 'Filter':
+                return (
+                  <Filter />
                 );
               case 'Events':
                 const renderComponent = ({done, error, props, retry, stale}) => {
