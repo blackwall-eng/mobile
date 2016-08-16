@@ -15,12 +15,12 @@ export default class Home extends Component {
   render() {
     const { navigator } = this.props;
 
-    const goToEvents = () => navigator.push({name: 'Events'});
+    const goToFilter = () => navigator.push({name: 'Filter'});
 
     return (
       <View style={styles.container}>
-          <Text style={styles.iWantTo}>I want to</Text>
-        <TouchableOpacity onPress={goToEvents}>
+        <Text style={styles.iWantTo}>I want to</Text>
+        <TouchableOpacity onPress={goToFilter}>
           <View style={styles.surpriseMeContainer}>
             <Text style={styles.surpriseMe}>do something</Text>
           </View>
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Helvetica',
     fontWeight: '100',
-    marginTop: 200,
     height: 50,
     fontSize: 25,
     paddingTop: 10,

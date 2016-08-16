@@ -15,6 +15,7 @@ import {
 
 import Home from './Home';
 import Events from './Events';
+import Filter from './Filter';
 import AppRoute from '../routes/AppRoute';
 
 import StarsImage from './stars.png';
@@ -28,8 +29,26 @@ class App extends Component {
                 return (
                   <Home navigator={navigator} />
                 );
+              case 'Filter':
+              const renderFilter = ({done, error, props, retry, stale}) => {
+                if (error) {
+                  return <Text>{error}</Text>;
+                } else if (props) {
+                  return <Filter navigator={navigator} {...props} />;
+                } else {
+                  return <Text></Text>;
+                }
+              }
+              return (
+                <Renderer
+                  Container={Filter}
+                  queryConfig={new AppRoute()}
+                  environment={Relay.Store}
+                  render={renderFilter}
+                  />
+              );
               case 'Events':
-                const renderComponent = ({done, error, props, retry, stale}) => {
+                const renderEvents = ({done, error, props, retry, stale}) => {
                   if (error) {
                     return <Text>{error}</Text>;
                   } else if (props) {
@@ -44,7 +63,7 @@ class App extends Component {
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
                     forceFetch={true}
-                    render={renderComponent}
+                    render={renderEvents}
                     />
                 );
           }
@@ -54,9 +73,9 @@ class App extends Component {
           <Image source={StarsImage} style={styles.stars}>
             <StatusBar barStyle="light-content" />
 
-            <ScrollView style={styles.scene}>
+            <View style={styles.scene}>
               {getContentView()}
-            </ScrollView>
+            </View>
           </Image>
         )
     }
@@ -85,14 +104,13 @@ class App extends Component {
 
     return (
       <Navigator
-        initialRoute={{name:  'Home'}}
+        initialRoute={{name:  'Home', gestures: null}}
         renderScene={navigationToScene}
-        configureScene={() => Navigator.SceneConfigs.VerticalUpSwipeJump}
-        navigationBar={
-          <Navigator.NavigationBar
-            routeMapper={navigationBarRouteMapper}
-            style={styles.navBar}
-          />}
+        configureScene={(route) => ({
+          ...route.sceneConfig || Navigator.SceneConfigs.VerticalUpSwipeJump,
+          gestures: route.gestures || null
+        })}
+        navigationBar={null}
       />
     );
   }
@@ -125,7 +143,6 @@ const styles = StyleSheet.create({
   },
   scene: {
     flex: 1,
-    paddingTop: 64,
   },
   stars: {
     flex: 1,
