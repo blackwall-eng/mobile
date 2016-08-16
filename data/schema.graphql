@@ -7,6 +7,22 @@ type Activity implements Node {
   text: String
 }
 
+type Category implements Node {
+  id: ID!
+  name: String
+  color: String
+}
+
+type CategoryConnection {
+  pageInfo: PageInfo!
+  edges: [CategoryEdge]
+}
+
+type CategoryEdge {
+  node: Category
+  cursor: String!
+}
+
 type Event implements Node {
   id: ID!
   eventID: Int
@@ -16,6 +32,7 @@ type Event implements Node {
   url: String
   cost: Float
   duration: Int
+  categories(after: String, first: Int, before: String, last: Int): CategoryConnection
   numberOfFriends: String
 }
 
@@ -51,5 +68,6 @@ type User implements Node {
   id: ID!
   name: String
   events(category: String = "any", after: String, first: Int, before: String, last: Int): EventConnection
+  categories(after: String, first: Int, before: String, last: Int): CategoryConnection
   activity(id: String = "1"): Activity
 }

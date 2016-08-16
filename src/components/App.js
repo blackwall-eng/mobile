@@ -17,6 +17,7 @@ import {
 
 import Home from './Home';
 import Events from './Events';
+import Filter from './Filter';
 import AppRoute from '../routes/AppRoute';
 
 import StarsImage from './stars.png';
@@ -82,8 +83,26 @@ class App extends Component {
                 return (
                   <Home navigator={navigator} />
                 );
+              case 'Filter':
+              const renderFilter = ({done, error, props, retry, stale}) => {
+                if (error) {
+                  return <Text>{error}</Text>;
+                } else if (props) {
+                  return <Filter navigator={navigator} {...props} />;
+                } else {
+                  return <Text></Text>;
+                }
+              }
+              return (
+                <Renderer
+                  Container={Filter}
+                  queryConfig={new AppRoute()}
+                  environment={Relay.Store}
+                  render={renderFilter}
+                  />
+              );
               case 'Events':
-                const renderComponent = ({done, error, props, retry, stale}) => {
+                const renderEvents = ({done, error, props, retry, stale}) => {
                   if (error) {
                     return <Text>{error}</Text>;
                   } else if (props) {
@@ -98,7 +117,7 @@ class App extends Component {
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
                     forceFetch={true}
-                    render={renderComponent}
+                    render={renderEvents}
                     />
                 );
               case 'Profile':
@@ -113,7 +132,7 @@ class App extends Component {
         return (
           <Image source={StarsImage} style={styles.stars} {...this._panResponder.panHandlers}>
             <StatusBar barStyle="light-content" />
-            <View>
+            <View style={styles.scene}>
               {getContentView()}
             </View>
           </Image>
@@ -144,18 +163,14 @@ class App extends Component {
 
     return (
       <Navigator
-        initialRoute={{name:  'Home'}}
+        initialRoute={{name:  'Home', gestures: null}}
         renderScene={navigationToScene}
         configureScene={(route) => ({
           ...route.sceneConfig || Navigator.SceneConfigs.VerticalUpSwipeJump,
-          gestures: null
+          gestures: route.gestures || null
         })}
         ref={(c) => this.navigator = c}
-        navigationBar={
-          <Navigator.NavigationBar
-            routeMapper={navigationBarRouteMapper}
-            style={styles.navBar}
-          />}
+        navigationBar={null}
       />
     );
   }
@@ -188,7 +203,6 @@ const styles = StyleSheet.create({
   },
   scene: {
     flex: 1,
-    paddingTop: 64,
   },
   stars: {
     flex: 1,
