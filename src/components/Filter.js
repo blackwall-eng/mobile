@@ -15,7 +15,7 @@ class Filter extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {backgroundColor: 'green'};
+    this.state = {backgroundColor: null};
   }
 
   render() {
@@ -29,16 +29,25 @@ class Filter extends Component {
       return (<FilterListItem key={category.node.id} category={category.node} onPress={isItPressed} />)
     });
 
-    const containerBackgroundColor = {backgroundColor: this.state.backgroundColor};
+    const containerStyle = [styles.container, {backgroundColor: this.state.backgroundColor}];
+
+    const goToResults = () => this.props.navigator.push({name: 'Events'});
+    const goToHome = () => this.props.navigator.pop();
 
     return (
-      <View style={containerBackgroundColor}>
+      <View style={containerStyle}>
         <Text style={styles.textHeader}>
             Don{"'"}t be shy{"\n"}choose a theme.
         </Text>
         <View style={styles.listing}>
           {filterList}
         </View>
+        <TouchableOpacity onPress={goToResults}>
+          <Text>Done</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={goToHome}>
+          <Text>Cancel</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -62,6 +71,10 @@ export default Relay.createContainer(Filter, {
 });
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
   textHeader: {
     color: 'rgba(255, 255, 255, 1)',
     fontFamily: 'Helvetica',
@@ -73,11 +86,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   listing: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
+    marginTop: 15,
     paddingHorizontal: 15,
    },
 });

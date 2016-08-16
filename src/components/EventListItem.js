@@ -15,16 +15,16 @@ class EventListItem extends Component {
     const { event } = this.props;
 
     return (
-
       <View style={styles.container}>
-
-      <View style={styles.circle}/>
-        <Text style={styles.title}>
-          {event.title}
-        </Text>
-        <Text style={styles.subtitle}>
-          {event.subtitle}
-        </Text>
+        <View style={styles.circle}/>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>
+            {event.title}
+          </Text>
+          <Text style={styles.subtitle}>
+            {event.subtitle}
+          </Text>
+        </View>
       </View>
     );
   }
@@ -44,12 +44,17 @@ export default Relay.createContainer(EventListItem, {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 1,
     paddingTop: 22,
     paddingRight: 20,
-    paddingLeft: 60,
+    paddingLeft: 20,
     paddingBottom: 13,
+  },
+  contentContainer: {
+    flexDirection: 'column',
+    flexWrap: 'wrap'
   },
   title: {
     fontFamily: 'Helvetica',
@@ -63,14 +68,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   circle: {
-    flex: 0,
     backgroundColor: '#00AFFF',
     height: 10,
     width: 10,
+    marginLeft: 10,
+    marginRight: 10,
     borderRadius: 5,
-    marginLeft: -31,
-    marginTop: 14,
-    position: 'absolute',
-
   }
 });

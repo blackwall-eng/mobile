@@ -25,14 +25,17 @@ export default class FilterListItem extends Component {
       onPress(isItPressedNow, category);
     }
 
-    const isItPressed = this.state.pressed ? [styles.element, styles.elementActive, {color: category.color }] : styles.element;
+    const textStyle = this.state.pressed ? [styles.element, {color: category.color }] : styles.element;
+    const containerStyle = this.state.pressed ? [styles.container, styles.elementActive] : styles.container;
 
     return (
       <View>
         <TouchableOpacity onPress={pressed}>
-          <Text style={isItPressed}>
-            {category.name}
-          </Text>
+          <View style={containerStyle}>
+            <Text style={textStyle}>
+              {category.name}
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -51,17 +54,19 @@ export default Relay.createContainer(FilterListItem, {
 });
 
 const styles = StyleSheet.create({
-  element: {
-    fontFamily: 'Helvetica',
-    fontWeight: '100',
-    color: '#FFFFFF',
-    fontSize: 23,
+  container: {
     paddingVertical: 8,
     paddingHorizontal:18,
     marginBottom: 28,
     marginHorizontal: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 22
+  },
+  element: {
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    color: '#FFFFFF',
+    fontSize: 23,
   },
   elementActive: {
     backgroundColor: 'rgba(255, 255, 255, 1)',

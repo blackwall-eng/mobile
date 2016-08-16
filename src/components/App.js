@@ -73,9 +73,9 @@ class App extends Component {
           <Image source={StarsImage} style={styles.stars}>
             <StatusBar barStyle="light-content" />
 
-            <ScrollView style={styles.scene}>
+            <View style={styles.scene}>
               {getContentView()}
-            </ScrollView>
+            </View>
           </Image>
         )
     }
@@ -104,14 +104,13 @@ class App extends Component {
 
     return (
       <Navigator
-        initialRoute={{name:  'Home'}}
+        initialRoute={{name:  'Home', gestures: null}}
         renderScene={navigationToScene}
-        configureScene={() => Navigator.SceneConfigs.VerticalUpSwipeJump}
-        navigationBar={
-          <Navigator.NavigationBar
-            routeMapper={navigationBarRouteMapper}
-            style={styles.navBar}
-          />}
+        configureScene={(route) => ({
+          ...route.sceneConfig || Navigator.SceneConfigs.VerticalUpSwipeJump,
+          gestures: route.gestures || null
+        })}
+        navigationBar={null}
       />
     );
   }
@@ -144,7 +143,6 @@ const styles = StyleSheet.create({
   },
   scene: {
     flex: 1,
-    paddingTop: 64,
   },
   stars: {
     flex: 1,

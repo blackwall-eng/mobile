@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Helvetica',
     fontWeight: '100',
-    marginTop: 200,
     height: 50,
     fontSize: 25,
     paddingTop: 10,

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  ScrollView,
   Text
 } from 'react-native';
 
@@ -20,12 +21,17 @@ class Events extends Component {
       return (<EventListItem key={event.node.id} event={event.node} />)
     });
 
+    const goToFilter = () => this.props.navigator.pop();
+
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.containerTwo}>
+          <TouchableOpacity onPress={goToFilter}>
+            <Text>I want to be inspired</Text>
+          </TouchableOpacity>
         </View>
         {eventsList}
-      </View>
+      </ScrollView>
     );
   }
 }
