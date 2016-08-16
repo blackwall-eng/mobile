@@ -16,10 +16,8 @@ export default class FilterListItem extends Component {
 
     return (
 
-      <View style={styles.container}>
-
-      <View style={styles.circle}/>
-        <Text style={styles.title}>
+      <View>
+        <Text style={styles.element}>
           {category.name}
         </Text>
       </View>
@@ -39,35 +37,14 @@ export default class FilterListItem extends Component {
 });*/
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    flex: 1,
-    marginBottom: 1,
-    paddingTop: 22,
-    paddingRight: 20,
-    paddingLeft: 60,
-    paddingBottom: 13,
-  },
-  title: {
+  element: {
     fontFamily: 'Helvetica',
-    fontWeight: '500',
-    color: '#252525',
-    fontSize: 16,
-    marginBottom: 2
-  },
-  subtitle: {
-    color: 'grey',
-    fontSize: 14,
-  },
-  circle: {
-    flex: 0,
-    backgroundColor: '#00AFFF',
-    height: 10,
-    width: 10,
-    borderRadius: 5,
-    marginLeft: -31,
-    marginTop: 14,
-    position: 'absolute',
-
+    fontWeight: '100',
+    color: '#FFFFFF',
+    fontSize: 23,
+    padding: 10,
+    marginBottom: 28,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 25
   }
 });

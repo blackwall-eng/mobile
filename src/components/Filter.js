@@ -17,10 +17,13 @@ export default class Filter extends Component {
     const categories = [{name: 'Enjoy', color: null},
                         {name: 'Face', color: null},
                       {name: 'Reflect', color: null},
-                    {name: 'crfeative', color: null},
-                  {name: 'crdeative', color: null},
-                {name: 'crseativfe', color: null},
-              {name: 'creativere', color: null}];
+                    {name: 'Challenge', color: null},
+                  {name: 'Express', color: null},
+                {name: 'Discover', color: null},
+              {name: 'Dream', color: null},
+            {name: 'Feel', color: null},
+          {name: 'Be Inspired', color: null},
+        {name: 'Experience', color: null}];
     /*const { edges } = this.props.viewer.events;*/
 
     const filterList = categories.map(category => {
@@ -28,12 +31,13 @@ export default class Filter extends Component {
     });
 
     return (
-      <View style={styles.container}>
-        <View style={styles.containerTwo}>
+      <View>
+        <Text style={styles.textHeader}>
+            Don{"'"}t be shy{"\n"}choose a theme.
+        </Text>
+        <View style={styles.listing}>
+          {filterList}
         </View>
-
-        {filterList}
-
       </View>
     );
   }
@@ -52,10 +56,23 @@ export default class Filter extends Component {
 });*/
 
 const styles = StyleSheet.create({
-  container: {
+  textHeader: {
+    color: 'rgba(255, 255, 255, 1)',
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    fontSize: 25,
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingLeft: 20,
+    textAlign: 'center',
+  },
+  listing: {
     flex: 1,
-  },
-  containerTwo: {
-    marginTop: 110,
-  },
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    paddingLeft: 20,
+    paddingRight: 20,
+   },
 });
