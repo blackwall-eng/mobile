@@ -9,10 +9,10 @@ import {
   Text
 } from 'react-native';
 
-class FilterListItem extends Component {
+export default class FilterListItem extends Component {
 
   render() {
-    const { event } = this.props;
+    const { category } = this.props;
 
     return (
 
@@ -20,23 +20,23 @@ class FilterListItem extends Component {
 
       <View style={styles.circle}/>
         <Text style={styles.title}>
-          {event.name}
+          {category.name}
         </Text>
       </View>
     );
   }
 }
 
-export default Relay.createContainer(FilterListItem, {
+/*export default Relay.createContainer(FilterListItem, {
   fragments: {
     category: () => Relay.QL`
-      fragment on Event {
+      fragment on Category {
         name,
         color
       }
     `,
   },
-});
+});*/
 
 const styles = StyleSheet.create({
   container: {

@@ -30,9 +30,7 @@ class App extends Component {
                   <Home navigator={navigator} />
                 );
               case 'Filter':
-                return (
-                  <Filter />
-                );
+                return (<Filter />);
               case 'Events':
                 const renderComponent = ({done, error, props, retry, stale}) => {
                   if (error) {

@@ -14,20 +14,25 @@ import FilterListItem from './FilterListItem';
 export default class Filter extends Component {
 
   render() {
-    /*const { edges } = this.props.viewer.events;
+    const categories = [{name: 'Enjoy', color: null},
+                        {name: 'Face', color: null},
+                      {name: 'Reflect', color: null},
+                    {name: 'crfeative', color: null},
+                  {name: 'crdeative', color: null},
+                {name: 'crseativfe', color: null},
+              {name: 'creativere', color: null}];
+    /*const { edges } = this.props.viewer.events;*/
 
-    const filterList = edges.map(event => {
-      return (<FilterListItem key={event.node.id} event={event.node} />)
-    });*/
+    const filterList = categories.map(category => {
+      return (<FilterListItem key={category.name} category={category} />)
+    });
 
     return (
       <View style={styles.container}>
         <View style={styles.containerTwo}>
         </View>
 
-        <Text>
-          coucou
-        </Text>
+        {filterList}
 
       </View>
     );
@@ -38,13 +43,8 @@ export default class Filter extends Component {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        events(first: 10) {
-          edges {
-            node {
-              id,
-              ${FilterListItem.getFragment('filter')}
-            }
-          }
+        categories {
+          ${FilterListItem.getFragment('category')}
         }
       }
     `,
