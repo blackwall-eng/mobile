@@ -30,9 +30,25 @@ class App extends Component {
                   <Home navigator={navigator} />
                 );
               case 'Filter':
-                return (<Filter />);
+              const renderFilter = ({done, error, props, retry, stale}) => {
+                if (error) {
+                  return <Text>{error}</Text>;
+                } else if (props) {
+                  return <Filter navigator={navigator} {...props} />;
+                } else {
+                  return <Text></Text>;
+                }
+              }
+              return (
+                <Renderer
+                  Container={Filter}
+                  queryConfig={new AppRoute()}
+                  environment={Relay.Store}
+                  render={renderFilter}
+                  />
+              );
               case 'Events':
-                const renderComponent = ({done, error, props, retry, stale}) => {
+                const renderEvents = ({done, error, props, retry, stale}) => {
                   if (error) {
                     return <Text>{error}</Text>;
                   } else if (props) {
@@ -47,7 +63,7 @@ class App extends Component {
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
                     forceFetch={true}
-                    render={renderComponent}
+                    render={renderEvents}
                     />
                 );
           }

@@ -11,21 +11,35 @@ import {
 
 export default class FilterListItem extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {pressed: false};
+  }
+
   render() {
-    const { category } = this.props;
+    const { category, onPress } = this.props;
+
+    const pressed = () => {
+      const isItPressedNow = !this.state.pressed;
+      this.setState({pressed: isItPressedNow});
+      onPress(isItPressedNow, category);
+    }
+
+    const isItPressed = this.state.pressed ? [styles.element, styles.elementActive, {color: category.color }] : styles.element;
 
     return (
-
       <View>
-        <Text style={styles.element}>
-          {category.name}
-        </Text>
+        <TouchableOpacity onPress={pressed}>
+          <Text style={isItPressed}>
+            {category.name}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-/*export default Relay.createContainer(FilterListItem, {
+export default Relay.createContainer(FilterListItem, {
   fragments: {
     category: () => Relay.QL`
       fragment on Category {
@@ -34,7 +48,7 @@ export default class FilterListItem extends Component {
       }
     `,
   },
-});*/
+});
 
 const styles = StyleSheet.create({
   element: {
@@ -42,9 +56,14 @@ const styles = StyleSheet.create({
     fontWeight: '100',
     color: '#FFFFFF',
     fontSize: 23,
-    padding: 10,
+    paddingVertical: 8,
+    paddingHorizontal:18,
     marginBottom: 28,
+    marginHorizontal: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 25
+    borderRadius: 22
+  },
+  elementActive: {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
   }
 });

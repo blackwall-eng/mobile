@@ -11,27 +11,28 @@ import {
 
 import FilterListItem from './FilterListItem';
 
-export default class Filter extends Component {
+class Filter extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {backgroundColor: 'green'};
+  }
 
   render() {
-    const categories = [{name: 'Enjoy', color: null},
-                        {name: 'Face', color: null},
-                      {name: 'Reflect', color: null},
-                    {name: 'Challenge', color: null},
-                  {name: 'Express', color: null},
-                {name: 'Discover', color: null},
-              {name: 'Dream', color: null},
-            {name: 'Feel', color: null},
-          {name: 'Be Inspired', color: null},
-        {name: 'Experience', color: null}];
-    /*const { edges } = this.props.viewer.events;*/
+    const { edges } = this.props.viewer.categories;
 
-    const filterList = categories.map(category => {
-      return (<FilterListItem key={category.name} category={category} />)
+    const isItPressed = (isPressed, category) => {
+      this.setState({backgroundColor: category.color});
+    }
+
+    const filterList = edges.map(category => {
+      return (<FilterListItem key={category.node.id} category={category.node} onPress={isItPressed} />)
     });
 
+    const containerBackgroundColor = {backgroundColor: this.state.backgroundColor};
+
     return (
-      <View>
+      <View style={containerBackgroundColor}>
         <Text style={styles.textHeader}>
             Don{"'"}t be shy{"\n"}choose a theme.
         </Text>
@@ -43,17 +44,22 @@ export default class Filter extends Component {
   }
 }
 
-/*export default Relay.createContainer(Filter, {
+export default Relay.createContainer(Filter, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        categories {
-          ${FilterListItem.getFragment('category')}
+        categories(first: 50) {
+          edges {
+            node {
+              id,
+              ${FilterListItem.getFragment('category')}
+            }
+          }
         }
       }
     `,
   },
-});*/
+});
 
 const styles = StyleSheet.create({
   textHeader: {
@@ -72,7 +78,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingHorizontal: 15,
    },
 });
