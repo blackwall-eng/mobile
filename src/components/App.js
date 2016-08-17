@@ -15,8 +15,9 @@ import {
   Dimensions
 } from 'react-native';
 
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+
 import Home from './Home';
-import Events from './Events';
 import Filter from './Filter';
 import AppRoute from '../routes/AppRoute';
 
@@ -24,117 +25,61 @@ import StarsImage from './stars.png';
 
 class App extends Component {
 
-  constructor() {
-    super();
-    this._swipedx = 0;
-    this._swipedy = 0;
-    this.state = {
-      'currentView': 'Home'
-    };
-  }
-
-  componentWillMount() {
-    this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      // onPanResponderMove: (evt, gestureState) => true,
-      onPanResponderRelease: (evt, gestureState) =>
-        this._handleOnPanResponderEnd(evt,gestureState),
-      onPanResponderTerminate: (evt, gestureState) =>
-        this._handleOnPanResponderEnd(evt, gestureState),
-      onShouldBlockNativeResponder: (evt, gestureState) => false
-    })
-  }
-
-  _handleOnPanResponderEnd(evt, gestureState) {
-    const {height, width} = Dimensions.get('window');
-    let swipex = Math.abs(gestureState.dx);
-    let swipey = Math.abs(gestureState.dy);
-    if(swipex > swipey && swipex > width/2) {
-      if(gestureState.dx > 0) {
-        this._handleSwipeRight()
-      } else {
-        this._handleSwipeLeft()
-      }
-    }
-  }
-
-  _handleSwipeLeft() {
-    if(this.state.currentRoute !== 'Profile') {
-      this.setState({currentRoute: 'Profile'});
-      this.navigator.push({name: 'Profile'});
-    }
-  }
-
-  _handleSwipeRight() {
-    if(this.state.currentRoute !== 'Home') {
-      this.setState({currentRoute: 'Home'})
-      this.navigator.resetTo({name: 'Home'});
-    }
-  }
-
   render() {
     const navigationToScene = (route, navigator) => {
         const getContentView = () => {
           switch (route.name) {
               case 'Home':
-                return (
-                  <Home navigator={navigator} />
-                );
-              case 'Filter':
-              const renderFilter = ({done, error, props, retry, stale}) => {
-                if (error) {
-                  return <Text>{error}</Text>;
-                } else if (props) {
-                  return <Filter navigator={navigator} {...props} />;
-                } else {
-                  return <Text></Text>;
-                }
-              }
-              return (
-                <Renderer
-                  Container={Filter}
-                  queryConfig={new AppRoute()}
-                  environment={Relay.Store}
-                  render={renderFilter}
-                  />
-              );
-              case 'Events':
-                const renderEvents = ({done, error, props, retry, stale}) => {
+                const renderHome = ({done, error, props, retry, stale}) => {
                   if (error) {
                     return <Text>{error}</Text>;
                   } else if (props) {
-                    return <Events navigator={navigator} {...props} />;
+                    return <Home navigator={navigator} {...props} />;
                   } else {
                     return <Text></Text>;
                   }
                 }
                 return (
                   <Renderer
-                    Container={Events}
+                    Container={Home}
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
                     forceFetch={true}
-                    render={renderEvents}
+                    render={renderHome}
                     />
                 );
-              case 'Profile':
+              case 'Filter':
+                const renderFilter = ({done, error, props, retry, stale}) => {
+                  if (error) {
+                    return <Text>{error}</Text>;
+                  } else if (props) {
+                    return <Filter navigator={navigator} {...props} />;
+                  } else {
+                    return <Text>Loading...</Text>;
+                  }
+                }
                 return (
-                  <View>
-                    <Text style={{color: 'white'}}>Profile</Text>
-                  </View>
+                  <Renderer
+                    Container={Filter}
+                    queryConfig={new AppRoute()}
+                    environment={Relay.Store}
+                    render={renderFilter}
+                    />
                 );
           }
         }
 
         return (
-          <Image source={StarsImage} style={styles.stars} {...this._panResponder.panHandlers}>
+          <Image source={StarsImage} style={styles.stars}>
             <StatusBar barStyle="light-content" />
-            <View style={styles.scene}>
-              {getContentView()}
-            </View>
+            <ScrollableTabView renderTabBar={() => <View />}>
+              <View tabLabel="Main" style={styles.scene}>
+                {getContentView()}
+              </View>
+              <View tabLabel="Profile" style={{flex: 1, justifyContent: 'center'}}>
+                <Text style={{color: 'white'}}>Profile</Text>
+              </View>
+            </ScrollableTabView>
           </Image>
         )
     }
@@ -190,17 +135,6 @@ export default Relay.createContainer(App, {
 });
 
 const styles = StyleSheet.create({
-  navBar: {
-    backgroundColor: 'rgba(37, 37, 37, 0.9)',
-  },
-  navBarText: {
-    fontSize: 16,
-    marginVertical: 10,
-    color: 'white'
-  },
-  navBarLeftButton: {
-    paddingLeft: 10,
-  },
   scene: {
     flex: 1,
   },
@@ -209,6 +143,6 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'cover',
-    backgroundColor: 'rgba(37, 37, 37, 1)'
+    backgroundColor: 'rgb(37, 37, 37)'
   },
 });
