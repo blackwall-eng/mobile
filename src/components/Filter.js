@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  Text
+  Text,
 } from 'react-native';
 
 import FilterListItem from './FilterListItem';
@@ -15,7 +15,9 @@ class Filter extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {backgroundColor: null};
+    this.state = {
+      backgroundColor: null,
+    };
   }
 
   render() {
@@ -31,7 +33,6 @@ class Filter extends Component {
 
     const containerStyle = [styles.container, {backgroundColor: this.state.backgroundColor}];
 
-    const goToResults = () => this.props.navigator.push({name: 'Events'});
     const goToHome = () => this.props.navigator.pop();
 
     return (
@@ -42,7 +43,7 @@ class Filter extends Component {
         <View style={styles.listing}>
           {filterList}
         </View>
-        <TouchableOpacity onPress={goToResults}>
+        <TouchableOpacity onPress={goToHome}>
           <Text>Done</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={goToHome}>

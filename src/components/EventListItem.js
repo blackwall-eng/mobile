@@ -17,7 +17,7 @@ class EventListItem extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.circle}/>
-        <View style={styles.textContainer}>
+        <View style={styles.contentContainer}>
           <Text style={styles.title}>
             {event.title}
           </Text>
@@ -47,14 +47,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 1,
-    paddingTop: 22,
-    paddingRight: 20,
-    paddingLeft: 20,
-    paddingBottom: 13,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
   },
   contentContainer: {
     flexDirection: 'column',
-    flexWrap: 'wrap'
+    flex: 1,
   },
   title: {
     fontFamily: 'Helvetica',
@@ -71,8 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#00AFFF',
     height: 10,
     width: 10,
-    marginLeft: 10,
-    marginRight: 10,
+    marginHorizontal: 10,
     borderRadius: 5,
   }
 });
