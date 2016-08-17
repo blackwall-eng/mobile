@@ -15,6 +15,8 @@ import {
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
+import StarsImage from './stars.png';
+
 import Events from './Events';
 
 class Home extends Component {
@@ -86,23 +88,31 @@ class IWantToSmall extends Component {
     const { goToFilter } = this.props;
 
     return (
-      <View style={smallIWantToStyles.container}>
-        <Text style={smallIWantToStyles.text}>I want to</Text>
-        <TouchableOpacity onPress={goToFilter}>
-          <View style={smallIWantToStyles.filterNameContainer}>
-            <Text style={smallIWantToStyles.filterText}>do something</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <Image source={StarsImage} style={smallIWantToStyles.backgroundImage}>
+        <View style={smallIWantToStyles.container}>
+          <Text style={smallIWantToStyles.text}>I want to</Text>
+          <TouchableOpacity onPress={goToFilter}>
+            <View style={smallIWantToStyles.filterNameContainer}>
+              <Text style={smallIWantToStyles.filterText}>do something</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Image>
     );
   }
 }
 
 const smallIWantToStyles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    height: null,
+    width: null,
+    resizeMode: 'cover',
+    backgroundColor: 'rgb(37, 37, 37)',
+  },
   container: {
     paddingTop: 20,
     paddingBottom: 10,
-    backgroundColor: 'black',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
