@@ -59,7 +59,7 @@ class Home extends Component {
           stickyHeaderHeight={100}
           parallaxHeaderHeight={ headerHeight }>
         <View style={styles.eventList}>
-          <Events {...this.props} />
+          <Events {...this.props} category={this.props.viewer.activeFilterCategories.edges[0].node.name}/>
         </View>
       </ParallaxScrollView>
     );
@@ -144,7 +144,14 @@ export default Relay.createContainer(Home, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        ${Events.getFragment('viewer')}
+        ${Events.getFragment('viewer')},
+        activeFilterCategories(first: 1) {
+          edges {
+            node {
+              name
+            }
+          }
+        }
       }
     `,
   },

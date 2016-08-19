@@ -9,24 +9,21 @@ import {
   Text
 } from 'react-native';
 
+import FilterMutation from '../mutations/FilterMutation';
+
 export default class FilterListItem extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {pressed: false};
-  }
-
   render() {
-    const { category, onPress } = this.props;
+    const { category, active, viewer} = this.props;
 
     const pressed = () => {
-      const isItPressedNow = !this.state.pressed;
-      this.setState({pressed: isItPressedNow});
-      onPress(isItPressedNow, category);
+      this.props.relay.commitUpdate(
+        new FilterMutation(this.props)
+      );
     }
 
-    const textStyle = this.state.pressed ? [styles.element, {color: category.color }] : styles.element;
-    const containerStyle = this.state.pressed ? [styles.container, styles.elementActive] : styles.container;
+    const textStyle = active ? [styles.element, {color: category.color }] : styles.element;
+    const containerStyle = active ? [styles.container, styles.elementActive] : styles.container;
 
     return (
       <View>
@@ -47,9 +44,16 @@ export default Relay.createContainer(FilterListItem, {
     category: () => Relay.QL`
       fragment on Category {
         name,
-        color
+        color,
+        ${FilterMutation.getFragment('category')},
       }
     `,
+    viewer: () => Relay.QL`
+      fragment on User {
+        userID,
+        ${FilterMutation.getFragment('viewer')},
+      }
+    `
   },
 });
 

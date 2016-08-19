@@ -1,10 +1,18 @@
 schema {
   query: Query
+  mutation: Mutation
 }
 
-type Activity implements Node {
-  id: ID!
-  text: String
+input AddFilterCategoryInput {
+  categoryName: String!
+  userID: Int!
+  clientMutationId: String!
+}
+
+type AddFilterCategoryPayload {
+  category: Category
+  viewer: User
+  clientMutationId: String!
 }
 
 type Category implements Node {
@@ -46,6 +54,11 @@ type EventEdge {
   cursor: String!
 }
 
+type Mutation {
+  addCategoryFilter(input: AddFilterCategoryInput!): AddFilterCategoryPayload
+  removeCategoryFilter(input: RemoveFilterCategoryInput!): RemoveFilterCategoryPayload
+}
+
 interface Node {
   id: ID!
 }
@@ -64,10 +77,24 @@ type Query {
   event(id: Int): Event
 }
 
+input RemoveFilterCategoryInput {
+  categoryName: String!
+  userID: Int!
+  clientMutationId: String!
+}
+
+type RemoveFilterCategoryPayload {
+  category: Category
+  viewer: User
+  clientMutationId: String!
+}
+
 type User implements Node {
   id: ID!
+  userID: Int
   name: String
+  email: String
   events(category: String = "any", after: String, first: Int, before: String, last: Int): EventConnection
   categories(after: String, first: Int, before: String, last: Int): CategoryConnection
-  activity(id: String = "1"): Activity
+  activeFilterCategories(after: String, first: Int, before: String, last: Int): CategoryConnection
 }

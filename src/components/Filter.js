@@ -13,25 +13,21 @@ import FilterListItem from './FilterListItem';
 
 class Filter extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      backgroundColor: null,
-    };
-  }
-
   render() {
     const { edges } = this.props.viewer.categories;
 
-    const isItPressed = (isPressed, category) => {
-      this.setState({backgroundColor: category.color});
-    }
+    const activeCategoryEdges = this.props.viewer.activeFilterCategories.edges;
 
     const filterList = edges.map(category => {
-      return (<FilterListItem key={category.node.id} category={category.node} onPress={isItPressed} />)
+      const active = activeCategoryEdges.find(n => n.node.id === category.node.id) !== undefined;
+      return (<FilterListItem key={category.node.id} category={category.node} {...this.props} active={active} />)
     });
 
-    const containerStyle = [styles.container, {backgroundColor: this.state.backgroundColor}];
+    var backgroundColor = null;
+    if (activeCategoryEdges[0]) {
+      backgroundColor = activeCategoryEdges[0].node.color;
+    }
+    const containerStyle = [styles.container, {backgroundColor: backgroundColor}];
 
     const goToHome = () => this.props.navigator.pop();
 
@@ -58,6 +54,15 @@ export default Relay.createContainer(Filter, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
+        ${FilterListItem.getFragment('viewer')},
+        activeFilterCategories(first: 50) {
+          edges {
+            node {
+              id
+              color
+            }
+          }
+        }
         categories(first: 50) {
           edges {
             node {

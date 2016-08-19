@@ -44,7 +44,7 @@ class App extends Component {
                     Container={Home}
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
-                    forceFetch={true}
+                    
                     render={renderHome}
                     />
                 );

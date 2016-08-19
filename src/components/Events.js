@@ -27,10 +27,13 @@ class Events extends Component {
 }
 
 export default Relay.createContainer(Events, {
+  initialVariables: {
+    category: 'Feel',
+  },
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        events(first: 10) {
+        events(category: $category, first: 10) {
           edges {
             node {
               id,
