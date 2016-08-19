@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   Text,
+  LayoutAnimation,
 } from 'react-native';
 
 import FilterListItem from './FilterListItem';
@@ -18,18 +19,30 @@ class Filter extends Component {
 
     const activeCategoryEdges = this.props.viewer.activeFilterCategories.edges;
 
-    const filterList = edges.map(category => {
-      const active = activeCategoryEdges.find(n => n.node.id === category.node.id) !== undefined;
-      return (<FilterListItem key={category.node.id} category={category.node} {...this.props} active={active} />)
-    });
-
     var backgroundColor = null;
     if (activeCategoryEdges[0]) {
       backgroundColor = activeCategoryEdges[0].node.color;
     }
     const containerStyle = [styles.container, {backgroundColor: backgroundColor}];
 
+    const filterList = edges.map(category => {
+      const active = activeCategoryEdges.find(n => n.node.id === category.node.id) !== undefined;
+      return (<FilterListItem key={category.node.id} viewer={this.props.viewer} category={category.node} active={active} color={backgroundColor} />)
+    });
+
     const goToHome = () => this.props.navigator.pop();
+
+    // Only show done when at least one category is selected
+    const doneButton = activeCategoryEdges.length > 0 ?
+      (
+       <TouchableOpacity onPress={goToHome}>
+         <View style={styles.doneButton}>
+           <Text>Done</Text>
+         </View>
+       </TouchableOpacity>
+      ): null;
+
+    LayoutAnimation.spring();
 
     return (
       <View style={containerStyle}>
@@ -39,12 +52,7 @@ class Filter extends Component {
         <View style={styles.listing}>
           {filterList}
         </View>
-        <TouchableOpacity onPress={goToHome}>
-          <Text>Done</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={goToHome}>
-          <Text>Cancel</Text>
-        </TouchableOpacity>
+        {doneButton}
       </View>
     );
   }
@@ -79,7 +87,7 @@ export default Relay.createContainer(Filter, {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   textHeader: {
     color: 'rgba(255, 255, 255, 1)',
@@ -99,4 +107,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingHorizontal: 15,
    },
+   doneButton: {
+     alignItems: 'center',
+     alignSelf: 'center',
+     backgroundColor: 'white',
+     padding: 10,
+     borderRadius: 20
+   }
 });

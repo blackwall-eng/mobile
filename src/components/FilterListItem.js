@@ -14,7 +14,7 @@ import FilterMutation from '../mutations/FilterMutation';
 export default class FilterListItem extends Component {
 
   render() {
-    const { category, active, viewer} = this.props;
+    const { category, active, viewer, color } = this.props;
 
     const pressed = () => {
       this.props.relay.commitUpdate(
@@ -22,7 +22,7 @@ export default class FilterListItem extends Component {
       );
     }
 
-    const textStyle = active ? [styles.element, {color: category.color }] : styles.element;
+    const textStyle = active ? [styles.element, {color: color }] : styles.element;
     const containerStyle = active ? [styles.container, styles.elementActive] : styles.container;
 
     return (
@@ -44,13 +44,11 @@ export default Relay.createContainer(FilterListItem, {
     category: () => Relay.QL`
       fragment on Category {
         name,
-        color,
         ${FilterMutation.getFragment('category')},
       }
     `,
     viewer: () => Relay.QL`
       fragment on User {
-        userID,
         ${FilterMutation.getFragment('viewer')},
       }
     `
