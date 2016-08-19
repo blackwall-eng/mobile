@@ -52,7 +52,8 @@ export default class FilterMutation extends Relay.Mutation {
       ? Relay.QL`
         fragment on AddFilterCategoryPayload {
           viewer {
-            activeFilterCategories
+            activeFilterCategories,
+            events
           },
           category
         }
@@ -60,7 +61,8 @@ export default class FilterMutation extends Relay.Mutation {
       : Relay.QL`
         fragment on RemoveFilterCategoryPayload {
           viewer {
-            activeFilterCategories
+            activeFilterCategories,
+            events
           },
           category {
             id

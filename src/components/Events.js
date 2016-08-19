@@ -12,7 +12,7 @@ import EventListItem from './EventListItem';
 class Events extends Component {
 
   render() {
-    const { edges } = this.props.viewer.events;
+    const edges = this.props.viewer.events.edges;
 
     const eventsList = edges.map(event => {
       return (<EventListItem key={event.node.id} event={event.node} />)
@@ -27,13 +27,10 @@ class Events extends Component {
 }
 
 export default Relay.createContainer(Events, {
-  initialVariables: {
-    category: 'Feel',
-  },
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        events(category: $category, first: 10) {
+        events(first: 10) {
           edges {
             node {
               id,
