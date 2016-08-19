@@ -54,8 +54,7 @@ export default class FilterMutation extends Relay.Mutation {
           viewer {
             activeFilterCategories,
             events
-          },
-          category
+          }
         }
       `
       : Relay.QL`
@@ -63,9 +62,6 @@ export default class FilterMutation extends Relay.Mutation {
           viewer {
             activeFilterCategories,
             events
-          },
-          category {
-            id
           }
         }
       `;
@@ -76,7 +72,7 @@ export default class FilterMutation extends Relay.Mutation {
 
     return [{
       type: 'FIELDS_CHANGE',
-      fieldIDs: {viewer: viewer.id, category: category.id},
+      fieldIDs: {viewer: viewer.id},
     }];
   }
 }
