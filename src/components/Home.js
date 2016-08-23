@@ -45,7 +45,7 @@ class Home extends Component {
     const { navigator } = this.props;
 
     const { height, width } = Dimensions.get('window');
-    const headerHeight = height * 0.75;
+    const headerHeight = height * 0.88;
 
     const goToFilter = () => navigator.push({name: 'Filter', sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump});
 
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
     fontWeight: '100',
     fontSize: 25,
-    marginBottom: 20,
+    marginBottom: 8,
   },
   surpriseMeContainer: {
   	flex: 1,
@@ -199,6 +199,6 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   eventList: {
-    backgroundColor: 'black'
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   }
 });
