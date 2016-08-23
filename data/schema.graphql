@@ -40,6 +40,7 @@ type Event implements Node {
   url: String
   cost: Float
   duration: Int
+  image: String
   categories(after: String, first: Int, before: String, last: Int): CategoryConnection
   numberOfFriends: String
 }

@@ -13,9 +13,10 @@ class Events extends Component {
 
   render() {
     const edges = this.props.viewer.events.edges;
+    const { navigator } = this.props;
 
     const eventsList = edges.map(event => {
-      return (<EventListItem key={event.node.id} event={event.node} />)
+      return (<EventListItem key={event.node.id} event={event.node} navigator={navigator} />)
     });
 
     return (

@@ -6,31 +6,41 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  Text
+  Text,
+  Navigator
 } from 'react-native';
 
 class EventListItem extends Component {
 
   render() {
-    const { event } = this.props;
+    const { event, navigator, clickDisabled } = this.props;
 
     var circleColor = '#00AFFF';
     if (event.categories.edges.length > 0) {
       circleColor = event.categories.edges[0].node.color || circleColor;
     }
 
+    const goToDetail = () => {
+      if (clickDisabled) {
+        return;
+      }
+      navigator.push({name: 'Event', eventID: event.eventID, sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump});
+    }
+
     return (
-      <View style={styles.container}>
-        <View style={[styles.circle, {backgroundColor: circleColor}]}/>
-        <View style={styles.contentContainer}>
-          <Text style={styles.title}>
-            {event.title}
-          </Text>
-          <Text style={styles.subtitle}>
-            {event.subtitle}
-          </Text>
+      <TouchableOpacity onPress={goToDetail}>
+        <View style={styles.container}>
+          <View style={[styles.circle, {backgroundColor: circleColor}]}/>
+          <View style={styles.contentContainer}>
+            <Text style={styles.title}>
+              {event.title}
+            </Text>
+            <Text style={styles.subtitle}>
+              {event.subtitle}
+            </Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -39,6 +49,7 @@ export default Relay.createContainer(EventListItem, {
   fragments: {
     event: () => Relay.QL`
       fragment on Event {
+        eventID,
         title,
         subtitle,
         categories(first: 1) {
