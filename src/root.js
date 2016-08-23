@@ -14,11 +14,17 @@ class LoggingNetworkLayer extends DefaultNetworkLayer {
     // Send the queries using the default network implementation
     return super.sendQueries(queries);
   }
+
+  sendMutation(mutationRequest) {
+    console.log('mutation: ', mutationRequest.getDebugName(), mutationRequest.getQueryString());
+    // Send the mutation using the default network implementation
+    return super.sendMutation(mutationRequest);
+  }
 };
 
 Relay.injectNetworkLayer(
   new LoggingNetworkLayer('https://blackwall-cerebro.herokuapp.com/graphql')
-  //new DefaultNetworkLayer('http://127.0.0.1:3000/graphql')
+  //new LoggingNetworkLayer('http://localhost:3000/graphql')
 );
 
 export default class Blackwall extends Component {

@@ -14,9 +14,14 @@ class EventListItem extends Component {
   render() {
     const { event } = this.props;
 
+    var circleColor = '#00AFFF';
+    if (event.categories.edges.length > 0) {
+      circleColor = event.categories.edges[0].node.color || circleColor;
+    }
+
     return (
       <View style={styles.container}>
-        <View style={styles.circle}/>
+        <View style={[styles.circle, {backgroundColor: circleColor}]}/>
         <View style={styles.contentContainer}>
           <Text style={styles.title}>
             {event.title}
@@ -35,7 +40,14 @@ export default Relay.createContainer(EventListItem, {
     event: () => Relay.QL`
       fragment on Event {
         title,
-        subtitle
+        subtitle,
+        categories(first: 1) {
+          edges {
+            node {
+              color
+            }
+          }
+        }
       }
     `,
   },
@@ -66,7 +78,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   circle: {
-    backgroundColor: '#00AFFF',
     height: 10,
     width: 10,
     marginHorizontal: 10,

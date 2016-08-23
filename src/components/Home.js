@@ -42,20 +42,25 @@ class Home extends Component {
         return (<View></View>);
     }
 
+    const { navigator } = this.props;
+
     const { height, width } = Dimensions.get('window');
     const headerHeight = height * 0.75;
 
-    const { navigator } = this.props;
-
     const goToFilter = () => navigator.push({name: 'Filter', sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump});
+
+    var filterText = 'do something';
+    if (this.props.viewer.activeFilterCategories.edges.length > 0) {
+      filterText = this.props.viewer.activeFilterCategories.edges.map(n => n.node.name).join(' & ');
+    }
 
     return (
       <ParallaxScrollView
           style={{ flex: 1}}
           contentBackgroundColor={'transparent'}
           backgroundColor={'transparent'}
-          renderForeground={() => <IWantToLarge goToFilter={goToFilter} />}
-          renderStickyHeader={() => <IWantToSmall goToFilter={goToFilter} />}
+          renderForeground={() => <IWantToLarge goToFilter={goToFilter} filterText={filterText} />}
+          renderStickyHeader={() => <IWantToSmall goToFilter={goToFilter} filterText={filterText} />}
           stickyHeaderHeight={100}
           parallaxHeaderHeight={ headerHeight }>
         <View style={styles.eventList}>
@@ -68,14 +73,14 @@ class Home extends Component {
 
 class IWantToLarge extends Component {
   render() {
-    const { goToFilter } = this.props;
+    const { goToFilter, filterText } = this.props;
 
     return (
       <View style={styles.iWantContainer}>
         <Text style={styles.iWantTo}>I want to</Text>
         <TouchableOpacity onPress={goToFilter}>
           <View style={styles.surpriseMeContainer}>
-            <Text style={styles.surpriseMe}>do something</Text>
+            <Text style={styles.surpriseMe}>{filterText}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -85,7 +90,12 @@ class IWantToLarge extends Component {
 
 class IWantToSmall extends Component {
   render() {
-    const { goToFilter } = this.props;
+    const { goToFilter, filterText } = this.props;
+
+
+    const { width } = Dimensions.get('window');
+    const filterTextStyle = [smallIWantToStyles.filterText, {maxWidth: width * 0.6}];
+
 
     return (
       <Image source={StarsImage} style={smallIWantToStyles.backgroundImage}>
@@ -93,7 +103,7 @@ class IWantToSmall extends Component {
           <Text style={smallIWantToStyles.text}>I want to</Text>
           <TouchableOpacity onPress={goToFilter}>
             <View style={smallIWantToStyles.filterNameContainer}>
-              <Text style={smallIWantToStyles.filterText}>do something</Text>
+              <Text style={filterTextStyle} numberOfLines={1} ellipsizeMode={'tail'}>{filterText}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -113,6 +123,7 @@ const smallIWantToStyles = StyleSheet.create({
   container: {
     paddingTop: 20,
     paddingBottom: 10,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -142,9 +153,16 @@ const smallIWantToStyles = StyleSheet.create({
 
 export default Relay.createContainer(Home, {
   fragments: {
-    viewer: () => Relay.QL`
+    viewer: ({categories}) => Relay.QL`
       fragment on User {
-        ${Events.getFragment('viewer')}
+        ${Events.getFragment('viewer')},
+        activeFilterCategories(first: 10) {
+          edges {
+            node {
+              name
+            }
+          }
+        }
       }
     `,
   },

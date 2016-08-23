@@ -12,7 +12,7 @@ import EventListItem from './EventListItem';
 class Events extends Component {
 
   render() {
-    const { edges } = this.props.viewer.events;
+    const edges = this.props.viewer.events.edges;
 
     const eventsList = edges.map(event => {
       return (<EventListItem key={event.node.id} event={event.node} />)
