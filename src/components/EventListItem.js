@@ -19,9 +19,13 @@ class EventListItem extends Component {
       circleColor = event.categories.edges[0].node.color || circleColor;
     }
 
+    //Changing (Trying) texte style of title when taped
+    const textStyle = active ? [styles.title, {fontWeight: '100'}] : styles.title;
+
+
     return (
       <View>
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={textStyle}>
         <View style={[styles.circle, {backgroundColor: circleColor}]}/>
         <View style={styles.contentContainer}>
           <Text style={styles.title} numberOfLines={1} >

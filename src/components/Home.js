@@ -118,33 +118,33 @@ const smallIWantToStyles = StyleSheet.create({
     height: null,
     width: null,
     resizeMode: 'cover',
-    backgroundColor: 'rgb(37, 37, 37)',
+    backgroundColor: 'rgba(37, 37, 37, 0.88)',
   },
   container: {
-    paddingTop: 20,
-    paddingBottom: 10,
+    paddingTop: 28,
+    paddingBottom: 20,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Helvetica',
     fontWeight: '100',
     fontSize: 20,
-    marginRight: 10
+    marginRight: 8
   },
   filterNameContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    paddingVertical: 7,
+    paddingHorizontal: 14,
     borderRadius: 26
   },
   filterText: {
-    color: 'white',
+    color: '#FFFFFF',
  	  fontFamily: 'Helvetica',
     fontWeight: '100',
     fontSize: 20
@@ -200,5 +200,5 @@ const styles = StyleSheet.create({
   },
   eventList: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  }
+  },
 });
