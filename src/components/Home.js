@@ -51,7 +51,8 @@ class Home extends Component {
 
     var filterText = 'do something';
     if (this.props.viewer.activeFilterCategories.edges.length > 0) {
-      filterText = this.props.viewer.activeFilterCategories.edges.map(n => n.node.name).join(' & ');
+      //Remove here the two others, just keep 1 and the +
+      filterText = this.props.viewer.activeFilterCategories.edges.map(n => n.node.name).join('+ ');
     }
 
     return (
