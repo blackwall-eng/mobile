@@ -25,6 +25,8 @@ class EventDetail extends Component {
 
     const image = event.image ? {uri: event.image} : NoImage;
 
+    const categoryColor = event.categories.edges[0].node.color;
+
     return (
       <View style={styles.container}>
         <View style={styles.imageForeground}>
@@ -38,8 +40,14 @@ class EventDetail extends Component {
           </Image>
         </View>
         <View style={styles.stepContainer}>
-          <Text>Step Text</Text>
-          <CheckButton color={'green'} />
+          <View style={styles.labelRow}>
+            <Text style={{marginHorizontal: 5}}>Sun</Text>
+            <Text style={{marginHorizontal: 5}}>Multi</Text>
+            <Text style={{marginHorizontal: 5}}>Nice</Text>
+          </View>
+          <Text style={{color: categoryColor, fontSize: 25, textAlign: 'center'}}>Annette, time in family is priceless</Text>
+          <CheckButton color={categoryColor} />
+          <Text>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
       </View>
     );
@@ -58,6 +66,13 @@ export default Relay.createContainer(EventDetail, {
         title,
         subtitle,
         image,
+        categories(first: 1) {
+          edges {
+            node {
+              color
+            }
+          }
+        },
         ${EventListItem.getFragment('event')}
       }
     `,
@@ -102,7 +117,10 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  labelRow: {
+    flexDirection: 'row'
   }
 });
