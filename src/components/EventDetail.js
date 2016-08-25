@@ -11,6 +11,8 @@ import {
   Dimensions,
 } from 'react-native';
 
+import LinearGradient from 'react-native-linear-gradient';
+
 import NoImage from './noimagefound.jpg';
 
 import EventListItem from './EventListItem';
@@ -39,7 +41,7 @@ class EventDetail extends Component {
             </View>
           </Image>
         </View>
-        <View style={styles.stepContainer}>
+        <View colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.stepContainer}>
           <View style={styles.labelRow}>
             <Text style={{marginHorizontal: 5}}>Sun</Text>
             <Text style={{marginHorizontal: 5}}>Multi</Text>
@@ -84,7 +86,6 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
   },
   backButton: {
     marginTop: 20,

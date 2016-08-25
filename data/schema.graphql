@@ -90,6 +90,15 @@ type RemoveFilterCategoryPayload {
   clientMutationId: String!
 }
 
+type Story implements Node {
+  id: ID!
+  storyID: Int
+  currentStep: Int
+  startTime: String
+  finishTime: String
+  event: Event
+}
+
 type User implements Node {
   id: ID!
   userID: Int
@@ -97,5 +106,6 @@ type User implements Node {
   email: String
   events(after: String, first: Int, before: String, last: Int): EventConnection
   categories(after: String, first: Int, before: String, last: Int): CategoryConnection
+  story(eventID: Int): Story
   activeFilterCategories(after: String, first: Int, before: String, last: Int): CategoryConnection
 }
