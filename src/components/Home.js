@@ -19,11 +19,9 @@ export default class Home extends Component {
 
     return (
       <View style={styles.container}>
-          <Text style={styles.iWantTo}>I want to</Text>
+        <Text style={styles.text}>I want to</Text>
         <TouchableOpacity onPress={goToEvents}>
-          <View style={styles.surpriseMeContainer}>
-            <Text style={styles.surpriseMe}>do something</Text>
-          </View>
+            <Text style={styles.button}>do something</Text>
         </TouchableOpacity>
       </View>
     );
@@ -33,19 +31,28 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iWantTo: {
-    color: 'white',
+  text: {
+    flex: 1,
+    color: 'rgba(255, 255, 255, 1)',
     fontFamily: 'Helvetica',
     fontWeight: '100',
-    marginTop: 200,
-    height: 50,
     fontSize: 25,
-    paddingTop: 10,
+  },
+  button: {
+    flex: 1,
+    color: 'rgba(255, 255, 255, 1)',
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    fontSize: 25,
+    height: 35,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     paddingRight: 20,
-    paddingLeft: 20
+    paddingLeft: 20,
+    borderRadius: 26,
   },
   surpriseMeContainer: {
   	flex: 1,
@@ -56,8 +63,8 @@ const styles = StyleSheet.create({
     borderRadius: 26
   },
   surpriseMe: {
- 	color: 'white',
- 	fontFamily: 'Helvetica',
+ 	  color: 'white',
+ 	  fontFamily: 'Helvetica',
     fontWeight: '100',
     height: 50,
     fontSize: 25
