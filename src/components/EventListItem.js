@@ -19,12 +19,15 @@ class EventListItem extends Component {
       circleColor = event.categories.edges[0].node.color || circleColor;
     }
 
+    //You stopped here
+    const titleStyle = active ? [styles.title, {weight: '100' }] : styles.title;
+
     return (
       <View>
       <TouchableOpacity style={styles.container}>
         <View style={[styles.circle, {backgroundColor: circleColor}]}/>
         <View style={styles.contentContainer}>
-          <Text style={styles.title} numberOfLines={1} >
+          <Text style={titleStyle} numberOfLines={1} >
             {event.title}
           </Text>
           <Text style={styles.subtitle} numberOfLines={1} >

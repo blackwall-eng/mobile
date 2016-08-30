@@ -47,7 +47,8 @@ class Home extends Component {
     const { height, width } = Dimensions.get('window');
     const headerHeight = height * 0.88;
 
-    const goToFilter = () => navigator.push({name: 'Filter', sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump});
+    //Better to have a fading effect here.
+    const goToFilter = () => navigator.push({name: 'Filter', sceneConfig: Navigator.SceneConfigs.FloatFromRight});
 
     var filterText = 'do something';
     if (this.props.viewer.activeFilterCategories.edges.length > 0) {
