@@ -29,6 +29,12 @@ class EventDetail extends Component {
 
     const categoryColor = event.categories.edges[0].node.color;
 
+
+    var firstStepText = "";
+    if (event.steps.edges.length > 0) {
+      firstStepText = event.steps.edges[0].node.text;
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.imageForeground}>
@@ -47,7 +53,7 @@ class EventDetail extends Component {
             <Text style={{marginHorizontal: 5}}>Multi</Text>
             <Text style={{marginHorizontal: 5}}>Nice</Text>
           </View>
-          <Text style={{color: categoryColor, fontSize: 25, textAlign: 'center'}}>Annette, time in family is priceless</Text>
+          <Text style={{color: categoryColor, fontSize: 25, textAlign: 'center'}}>{firstStepText}</Text>
           <CheckButton color={categoryColor} />
           <Text>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
@@ -68,6 +74,16 @@ export default Relay.createContainer(EventDetail, {
         title,
         subtitle,
         image,
+        steps(first: 10) {
+          edges {
+            node {
+              __typename,
+              ... on TextStep {
+                text
+              }
+            }
+          }
+        },
         categories(first: 1) {
           edges {
             node {
