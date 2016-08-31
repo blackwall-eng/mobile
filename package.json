@@ -13,8 +13,9 @@
     "babel-relay-plugin": "0.9.2",
     "react": "~15.2.1",
     "react-native": "^0.31.0",
+    "react-native-linear-gradient": "^1.5.12",
     "react-native-parallax-scroll-view": "^0.19.0",
-    "react-native-scrollable-tab-view": "^0.5.4",
+    "react-native-scrollable-tab-view": "^0.5.3",
     "react-relay": "0.9.2"
   },
   "devDependencies": {

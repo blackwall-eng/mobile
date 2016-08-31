@@ -8,8 +8,6 @@ import Relay, {
   Renderer,
 } from 'react-relay';
 
-import Loading from './components/Loading';
-
 class LoggingNetworkLayer extends DefaultNetworkLayer {
   sendQueries(queries) {
     queries.forEach((query) => console.log('query: ', query.getDebugName(), query.getQueryString()))
@@ -31,6 +29,12 @@ Relay.injectNetworkLayer(
 
 export default class Blackwall extends Component {
   render() {
-    return <App />;
+    return (
+      <Renderer
+        Container={App}
+        environment={Relay.Store}
+        queryConfig={new AppRoute()}
+      />
+    );
   }
 }
