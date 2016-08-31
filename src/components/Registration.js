@@ -32,11 +32,30 @@ export default class Registration extends Component {
 
     const { name, email, verficationCode } = this.state;
 
+    const sendVerify = () => {
+      fetch('https://blackwall-cerebro.herokuapp.com/verify', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          verficationCode: verficationCode,
+        })
+      }).then(res => res.json()).then(res => {
+        if (res.status === 'success') {
+          onSuccess(res.user.token);
+        } else {
+          // TODO: Show error message
+        }
+      });
+    };
+
     if (verficationCode && verficationCode.length === 4) {
-      onSuccess('1234');
+      sendVerify();
     }
 
-    ///
     const navigationToScene = (route, navigator) => {
         const getContentView = () => {
           switch (route.name) {
@@ -92,7 +111,6 @@ export default class Registration extends Component {
                       keyboardType={'numeric'}
                       autoFocus={true}
                       autoCorrect={false}
-                      onSubmitEditing={() => this.navigator.push({name: 'Name'})}
                     />
                   </View>
                 );
