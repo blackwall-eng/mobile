@@ -18,6 +18,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import StarsImage from './stars.png';
 
 import Events from './Events';
+import Loading from './Loading';
 
 class Home extends Component {
   propTypes: {
@@ -39,7 +40,7 @@ class Home extends Component {
 
   render() {
     if (this.state.renderPlaceholderOnly) {
-        return (<View></View>);
+        return (<Loading />);
     }
 
     const { navigator } = this.props;
