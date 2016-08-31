@@ -18,6 +18,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import StarsImage from './stars.png';
 
 import Events from './Events';
+import Loading from './Loading';
 
 class Home extends Component {
   propTypes: {
@@ -39,7 +40,7 @@ class Home extends Component {
 
   render() {
     if (this.state.renderPlaceholderOnly) {
-        return (<View></View>);
+        return (<Loading />);
     }
 
     const { navigator } = this.props;
@@ -47,13 +48,12 @@ class Home extends Component {
     const { height, width } = Dimensions.get('window');
     const headerHeight = height * 0.88;
 
-    //Better to have a fading effect here.
     const goToFilter = () => navigator.push({name: 'Filter', sceneConfig: Navigator.SceneConfigs.FloatFromRight});
 
     var filterText = 'do something';
     if (this.props.viewer.activeFilterCategories.edges.length > 0) {
-      //Remove here the two others, just keep 1 and the +
-      filterText = this.props.viewer.activeFilterCategories.edges.map(n => n.node.name).join('+ ');
+
+      filterText = this.props.viewer.activeFilterCategories.edges[0].node.name + '+';
     }
 
     return (

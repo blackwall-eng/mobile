@@ -40,8 +40,10 @@ type Event implements Node {
   url: String
   cost: Float
   duration: Int
+  image: String
   categories(after: String, first: Int, before: String, last: Int): CategoryConnection
   numberOfFriends: String
+  steps(after: String, first: Int, before: String, last: Int): StepConnection
 }
 
 type EventConnection {
@@ -89,6 +91,33 @@ type RemoveFilterCategoryPayload {
   clientMutationId: String!
 }
 
+union Step = TextStep
+
+type StepConnection {
+  pageInfo: PageInfo!
+  edges: [StepEdge]
+}
+
+type StepEdge {
+  node: Step
+  cursor: String!
+}
+
+type Story implements Node {
+  id: ID!
+  storyID: Int
+  currentStep: Int
+  startTime: String
+  finishTime: String
+  event: Event
+}
+
+type TextStep implements Node {
+  id: ID!
+  stepID: Int
+  text: String
+}
+
 type User implements Node {
   id: ID!
   userID: Int
@@ -96,5 +125,6 @@ type User implements Node {
   email: String
   events(after: String, first: Int, before: String, last: Int): EventConnection
   categories(after: String, first: Int, before: String, last: Int): CategoryConnection
+  story(eventID: Int): Story
   activeFilterCategories(after: String, first: Int, before: String, last: Int): CategoryConnection
 }

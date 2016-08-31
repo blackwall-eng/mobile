@@ -19,11 +19,15 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import Home from './Home';
 import Filter from './Filter';
+import EventDetail from './EventDetail';
+import Loading from './Loading';
+
 import AppRoute from '../routes/AppRoute';
+import EventRoute from '../routes/EventRoute';
 
 import StarsImage from './stars.png';
 
-class App extends Component {
+export default class App extends Component {
 
   render() {
     const navigationToScene = (route, navigator) => {
@@ -36,7 +40,7 @@ class App extends Component {
                   } else if (props) {
                     return <Home navigator={navigator} {...props} />;
                   } else {
-                    return <Text></Text>;
+                    return <Loading />;
                   }
                 }
                 return (
@@ -44,7 +48,7 @@ class App extends Component {
                     Container={Home}
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
-                    
+
                     render={renderHome}
                     />
                 );
@@ -55,7 +59,7 @@ class App extends Component {
                   } else if (props) {
                     return <Filter navigator={navigator} {...props} />;
                   } else {
-                    return <Text>Loading...</Text>;
+                    return <Loading />;
                   }
                 }
                 return (
@@ -64,6 +68,25 @@ class App extends Component {
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
                     render={renderFilter}
+                    />
+                );
+              case 'Event':
+                const eventID = route.eventID;
+                const renderEventDetail = ({done, error, props, retry, stale}) => {
+                  if (error) {
+                    return <Text>{error}</Text>;
+                  } else if (props) {
+                    return <EventDetail navigator={navigator} {...props} />;
+                  } else {
+                    return <Text>Loading...</Text>;
+                  }
+                }
+                return (
+                  <Renderer
+                    Container={EventDetail}
+                    queryConfig={new EventRoute({eventID: eventID})}
+                    environment={Relay.Store}
+                    render={renderEventDetail}
                     />
                 );
           }
@@ -120,19 +143,6 @@ class App extends Component {
     );
   }
 }
-
-export default Relay.createContainer(App, {
-  initialVariables: {
-    activityID: "1"
-  },
-  fragments: {
-    viewer: () => Relay.QL`
-      fragment on User {
-        name
-      }
-    `,
-  },
-});
 
 const styles = StyleSheet.create({
   scene: {
