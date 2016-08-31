@@ -8,7 +8,8 @@ import {
   Text,
   Image,
   TextInput,
-  Dimensions
+  Dimensions,
+  Navigator
 } from 'react-native';
 
 import StarsImage from './stars.png';
@@ -21,7 +22,6 @@ export default class Registration extends Component {
       name: null,
       email: null,
       verficationCode: null,
-      currentStep: 0
     };
   }
 
@@ -30,83 +30,105 @@ export default class Registration extends Component {
   render() {
     const { onSuccess } = this.props;
 
-    const { currentStep, name, email, verficationCode } = this.state;
-
-    const goToNextStep = () => {
-      this.setState({
-        currentStep: currentStep + 1
-      });
-    }
+    const { name, email, verficationCode } = this.state;
 
     if (verficationCode && verficationCode.length === 4) {
       onSuccess('1234');
     }
 
-    var content = null;
-    if (currentStep === 0) {
-      content = (
-        <View>
-          <Text style={styles.text}>Hey stranger,{'\n'} may I know your name?</Text>
-          <TextInput
-            style={styles.input}
-            blurOnSubmit={false}
-            onChangeText={(text) => this.setState({name: text})}
-            value={this.state.name}
-            placeholder={'Sure my name is ...'}
-            placeholderTextColor={'gray'}
-            returnKeyType={'next'}
-            autoFocus={true}
-            autoCorrect={false}
-            onSubmitEditing={goToNextStep}
-          />
-        </View>
-      )
-    } else if (currentStep === 1) {
-      content = (
-        <View>
-          <Text style={styles.text}>Hi {name}, may I have your e-mail?</Text>
-          <TextInput
-            style={styles.input}
-            blurOnSubmit={false}
-            onChangeText={(text) => this.setState({email: text})}
-            value={this.state.email}
-            placeholder={'Sure it is ...'}
-            placeholderTextColor={'gray'}
-            returnKeyType={'next'}
-            keyboardType={'email-address'}
-            autoCapitalize={'none'}
-            autoFocus={true}
-            autoCorrect={false}
-            onSubmitEditing={goToNextStep}
-          />
-        </View>
-      );
-    } else {
-      content = (
-        <View>
-          <Text style={styles.text}>Lastly, may I have the code you received via Email?</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => this.setState({verficationCode: text})}
-            value={this.state.verficationCode}
-            placeholder={'It is ...'}
-            placeholderTextColor={'gray'}
-            returnKeyType={'done'}
-            keyboardType={'numeric'}
-            autoFocus={true}
-            autoCorrect={false}
-            onSubmitEditing={goToNextStep}
-          />
-        </View>
-      );
+    ///
+    const navigationToScene = (route, navigator) => {
+        const getContentView = () => {
+          switch (route.name) {
+              case 'Name':
+                return (
+                  <View>
+                    <Text style={styles.text}>Hey stranger,{'\n'} may I know your name?</Text>
+                    <TextInput
+                      style={styles.input}
+                      blurOnSubmit={false}
+                      onChangeText={(text) => this.setState({name: text})}
+                      value={this.state.name}
+                      placeholder={'Sure my name is ...'}
+                      placeholderTextColor={'gray'}
+                      returnKeyType={'next'}
+                      autoFocus={true}
+                      autoCorrect={false}
+                      onSubmitEditing={() => this.navigator.push({name: 'Email'})}
+                    />
+                  </View>
+                );
+              case 'Email':
+                return (
+                  <View>
+                    <Text style={styles.text}>Hi {name}, may I have your e-mail?</Text>
+                    <TextInput
+                      style={styles.input}
+                      blurOnSubmit={false}
+                      onChangeText={(text) => this.setState({email: text})}
+                      value={this.state.email}
+                      placeholder={'Sure it is ...'}
+                      placeholderTextColor={'gray'}
+                      returnKeyType={'next'}
+                      keyboardType={'email-address'}
+                      autoCapitalize={'none'}
+                      autoFocus={true}
+                      autoCorrect={false}
+                      onSubmitEditing={() => this.navigator.push({name: 'Code'})}
+                    />
+                  </View>
+                );
+              case 'Code':
+                return (
+                  <View>
+                    <Text style={styles.text}>Lastly, may I have the code you received via Email?</Text>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={(text) => this.setState({verficationCode: text})}
+                      value={this.state.verficationCode}
+                      placeholder={'It is ...'}
+                      placeholderTextColor={'gray'}
+                      returnKeyType={'done'}
+                      keyboardType={'numeric'}
+                      autoFocus={true}
+                      autoCorrect={false}
+                      onSubmitEditing={() => this.navigator.push({name: 'Name'})}
+                    />
+                  </View>
+                );
+          }
+        }
+
+        return (
+          <Image source={StarsImage} style={styles.stars}>
+            <View style={styles.contentContainer}>
+              {getContentView()}
+            </View>
+          </Image>
+        );
     }
 
+    const navigationBarRouteMapper = {
+      LeftButton: (route, navigator, index, navState) => {
+        return null;
+      },
+      RightButton: (route, navigator, index, navState) =>
+           { return null; },
+      Title: (route, navigator, index, navState) =>
+           { return null; },
+    };
+
     return (
-      <Image source={StarsImage} style={styles.stars}>
-        <View style={styles.contentContainer}>
-          {content}
-        </View>
-      </Image>
+      <Navigator
+        initialRoute={{name:  'Name', gestures: null}}
+        renderScene={navigationToScene}
+        configureScene={(route) => ({
+          ...route.sceneConfig || Navigator.SceneConfigs.VerticalUpSwipeJump,
+          gestures: route.gestures || null
+        })}
+        ref={(c) => this.navigator = c}
+        navigationBar={null}
+      />
     );
   }
 }
