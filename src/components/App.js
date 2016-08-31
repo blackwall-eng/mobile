@@ -19,9 +19,11 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import Home from './Home';
 import Filter from './Filter';
+import EventDetail from './EventDetail';
 import Loading from './Loading';
 
 import AppRoute from '../routes/AppRoute';
+import EventRoute from '../routes/EventRoute';
 
 import StarsImage from './stars.png';
 
@@ -66,6 +68,25 @@ export default class App extends Component {
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
                     render={renderFilter}
+                    />
+                );
+              case 'Event':
+                const eventID = route.eventID;
+                const renderEventDetail = ({done, error, props, retry, stale}) => {
+                  if (error) {
+                    return <Text>{error}</Text>;
+                  } else if (props) {
+                    return <EventDetail navigator={navigator} {...props} />;
+                  } else {
+                    return <Text>Loading...</Text>;
+                  }
+                }
+                return (
+                  <Renderer
+                    Container={EventDetail}
+                    queryConfig={new EventRoute({eventID: eventID})}
+                    environment={Relay.Store}
+                    render={renderEventDetail}
                     />
                 );
           }
