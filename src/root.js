@@ -43,7 +43,7 @@ export default class Blackwall extends Component {
   componentWillMount() {
     AsyncStorage.getItem('User:token', (err, value) => {
       if (!err && value !== undefined) {
-        this.setState({token: null});
+        this.setState({token: value});
       } else {
         this.setState({token: null});
       }

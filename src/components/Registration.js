@@ -22,6 +22,7 @@ export default class Registration extends Component {
       name: null,
       email: null,
       verficationCode: null,
+      error: null,
     };
   }
 
@@ -30,7 +31,7 @@ export default class Registration extends Component {
   render() {
     const { onSuccess } = this.props;
 
-    const { name, email, verficationCode } = this.state;
+    const { name, email, verficationCode, error } = this.state;
 
     const sendVerify = () => {
       fetch('https://blackwall-cerebro.herokuapp.com/verify', {
@@ -47,10 +48,47 @@ export default class Registration extends Component {
         if (res.status === 'success') {
           onSuccess(res.user.token);
         } else {
-          // TODO: Show error message
+          this.setState({error: 'Wrong Code, please type in the 4 digit code you received via E-Mail'});
         }
       });
     };
+
+    const validateEmail = (e) => {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(e);
+    }
+
+    const createUser = () => {
+      if (!validateEmail(email)) {
+        this.setState({error: 'You must provide a valid Email Address'});
+        return;
+      }
+
+      fetch('https://blackwall-cerebro.herokuapp.com/createuser', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          name: name,
+        })
+      }).then(res => {
+        return res.json();
+      }).then(res => {
+        if (res.status === 'success') {
+          this.setState({error: null});
+          this.navigator.push({name: 'RegisterCode'});
+        } else if (res.status === 'failure' && res.message === 'Email already exists') {
+          // User already exists, the user received a new code via mail
+          this.setState({error: null});
+          this.navigator.push({name: 'LoginCode'});
+        } else {
+          this.setState({error: 'Something went wrong please try again later.'});
+        }
+      });
+    }
 
     if (verficationCode && verficationCode.length === 4) {
       sendVerify();
@@ -84,7 +122,7 @@ export default class Registration extends Component {
                     <TextInput
                       style={styles.input}
                       blurOnSubmit={false}
-                      onChangeText={(text) => this.setState({email: text})}
+                      onChangeText={(text) => this.setState({email: text, error: null})}
                       value={this.state.email}
                       placeholder={'Sure it is ...'}
                       placeholderTextColor={'gray'}
@@ -93,33 +131,59 @@ export default class Registration extends Component {
                       autoCapitalize={'none'}
                       autoFocus={true}
                       autoCorrect={false}
-                      onSubmitEditing={() => this.navigator.push({name: 'Code'})}
+                      onSubmitEditing={createUser}
                     />
                   </View>
                 );
-              case 'Code':
+              case 'RegisterCode':
                 return (
                   <View>
                     <Text style={styles.text}>Lastly, may I have the code you received via Email?</Text>
                     <TextInput
                       style={styles.input}
-                      onChangeText={(text) => this.setState({verficationCode: text})}
+                      onChangeText={(text) => this.setState({verficationCode: text, error: null})}
                       value={this.state.verficationCode}
                       placeholder={'It is ...'}
                       placeholderTextColor={'gray'}
                       returnKeyType={'done'}
+                      maxLength={4}
                       keyboardType={'numeric'}
                       autoFocus={true}
                       autoCorrect={false}
                     />
                   </View>
                 );
+                case 'LoginCode':
+                  return (
+                    <View>
+                      <Text style={styles.text}>Seems like you already used Blackwall. May I have the code you received via Email?</Text>
+                      <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => this.setState({verficationCode: text, error: null})}
+                        value={this.state.verficationCode}
+                        placeholder={'It is ...'}
+                        placeholderTextColor={'gray'}
+                        returnKeyType={'done'}
+                        maxLength={4}
+                        keyboardType={'numeric'}
+                        autoFocus={true}
+                        autoCorrect={false}
+                      />
+                    </View>
+                  );
           }
         }
+
+        const errorView = error ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        ) : null;
 
         return (
           <Image source={StarsImage} style={styles.stars}>
             <View style={styles.contentContainer}>
+              {errorView}
               {getContentView()}
             </View>
           </Image>
@@ -175,6 +239,14 @@ const styles = StyleSheet.create({
     height: 25,
     fontSize: 20,
     color: 'white',
+    textAlign: 'center'
+  },
+  errorContainer: {
+
+  },
+  errorText: {
+    fontSize: 20,
+    color: 'yellow',
     textAlign: 'center'
   }
 });
