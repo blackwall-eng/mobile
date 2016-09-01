@@ -27,15 +27,17 @@ class EventListItem extends Component {
       navigator.push({name: 'Event', eventID: event.eventID, sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump});
     }
 
+    const titleStyle = active ? [styles.title, {weight: '100' }] : styles.title;
+
     return (
       <TouchableOpacity onPress={goToDetail}>
         <View style={styles.container}>
-          <View style={[styles.circle, {backgroundColor: circleColor}]}/>
+          <View style={[styles.circle, {backgroundColor: circleColor}]} />
           <View style={styles.contentContainer}>
-            <Text style={styles.title}>
+            <Text style={titleStyle} numberOfLines={1}>
               {event.title}
             </Text>
-            <Text style={styles.subtitle}>
+            <Text style={styles.subtitle} numberOfLines={1}>
               {event.subtitle}
             </Text>
           </View>
@@ -66,12 +68,13 @@ export default Relay.createContainer(EventListItem, {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 1,
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingVertical: 24,
+    paddingLeft: 28,
+    paddingRight: 10,
   },
   contentContainer: {
     flexDirection: 'column',
@@ -89,9 +92,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   circle: {
-    height: 10,
-    width: 10,
-    marginHorizontal: 10,
-    borderRadius: 5,
+    height: 11,
+    width: 11,
+    marginLeft: 6,
+    marginRight: 28,
+    borderRadius: 7,
   }
 });

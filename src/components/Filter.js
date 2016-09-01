@@ -24,6 +24,7 @@ class Filter extends Component {
       backgroundColor = activeCategoryEdges[0].node.color;
     }
     const containerStyle = [styles.container, {backgroundColor: backgroundColor}];
+    const buttonStyle = [styles.textButton, {color: backgroundColor}];
 
     const filterList = edges.map(category => {
       const active = activeCategoryEdges.find(n => n.node.id === category.node.id) !== undefined;
@@ -33,11 +34,11 @@ class Filter extends Component {
     const goToHome = () => this.props.navigator.pop();
 
     // Only show done when at least one category is selected
-    const doneButton = activeCategoryEdges.length > 0 ?
+    const okButton = activeCategoryEdges.length > 0 ?
       (
        <TouchableOpacity onPress={goToHome}>
-         <View style={styles.doneButton}>
-           <Text>Done</Text>
+         <View style={styles.okButton}>
+           <Text style={buttonStyle}>Go</Text>
          </View>
        </TouchableOpacity>
       ): null;
@@ -46,13 +47,17 @@ class Filter extends Component {
 
     return (
       <View style={containerStyle}>
-        <Text style={styles.textHeader}>
-            Don{"'"}t be shy{"\n"}choose a theme.
-        </Text>
+        <View style={styles.header}>
+          <Text style={styles.textHeader}>
+              Don{"'"}t be shy{"\n"}choose a theme.
+          </Text>
+        </View>
         <View style={styles.listing}>
           {filterList}
         </View>
-        {doneButton}
+        <View style={styles.footer}>
+          {okButton}
+        </View>
       </View>
     );
   }
@@ -89,14 +94,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  header: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   textHeader: {
     color: 'rgba(255, 255, 255, 1)',
     fontFamily: 'Helvetica',
     fontWeight: '100',
     fontSize: 25,
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingLeft: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
     textAlign: 'center',
   },
   listing: {
@@ -104,14 +112,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
-    marginTop: 15,
     paddingHorizontal: 15,
    },
-   doneButton: {
+   footer: {
+     flex: 1,
+     justifyContent: 'center',
+   },
+   okButton: {
+     flex: 1,
+     justifyContent: 'center',
      alignItems: 'center',
      alignSelf: 'center',
-     backgroundColor: 'white',
-     padding: 10,
-     borderRadius: 20
-   }
+     backgroundColor: 'rgba(255, 255, 255, 1)',
+     height: 58,
+     width: 58,
+     borderRadius: 35,
+     marginBottom: 30,
+   },
+   textButton: {
+     fontFamily: 'Helvetica',
+     fontWeight: '100',
+     color: '#FFFFFF',
+     fontSize: 23,
+   },
 });
