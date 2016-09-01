@@ -46,13 +46,15 @@ class Home extends Component {
     const { navigator } = this.props;
 
     const { height, width } = Dimensions.get('window');
-    const headerHeight = height * 0.75;
+    const headerHeight = height * 0.88;
 
-    const goToFilter = () => navigator.push({name: 'Filter', sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump});
+    //Better to have a fading effect here.
+    const goToFilter = () => navigator.push({name: 'Filter', sceneConfig: Navigator.SceneConfigs.FloatFromRight});
 
     var filterText = 'do something';
     if (this.props.viewer.activeFilterCategories.edges.length > 0) {
-      filterText = this.props.viewer.activeFilterCategories.edges.map(n => n.node.name).join(' & ');
+      //Remove here the two others, just keep 1 and the +
+      filterText = this.props.viewer.activeFilterCategories.edges[0].node.name + '+';
     }
 
     return (
@@ -119,33 +121,33 @@ const smallIWantToStyles = StyleSheet.create({
     height: null,
     width: null,
     resizeMode: 'cover',
-    backgroundColor: 'rgb(37, 37, 37)',
+    backgroundColor: 'rgba(37, 37, 37, 0.88)',
   },
   container: {
-    paddingTop: 20,
-    paddingBottom: 10,
+    paddingTop: 28,
+    paddingBottom: 20,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Helvetica',
     fontWeight: '100',
     fontSize: 20,
-    marginRight: 10
+    marginRight: 8
   },
   filterNameContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    paddingVertical: 7,
+    paddingHorizontal: 14,
     borderRadius: 26
   },
   filterText: {
-    color: 'white',
+    color: '#FFFFFF',
  	  fontFamily: 'Helvetica',
     fontWeight: '100',
     fontSize: 20
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
     fontWeight: '100',
     fontSize: 25,
-    marginBottom: 20,
+    marginBottom: 8,
   },
   surpriseMeContainer: {
   	flex: 1,
@@ -200,6 +202,6 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   eventList: {
-    backgroundColor: 'black'
-  }
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  },
 });
