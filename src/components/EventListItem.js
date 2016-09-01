@@ -27,14 +27,12 @@ class EventListItem extends Component {
       navigator.push({name: 'Event', eventID: event.eventID, sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump});
     }
 
-    const titleStyle = active ? [styles.title, {weight: '100' }] : styles.title;
-
     return (
       <TouchableOpacity onPress={goToDetail}>
         <View style={styles.container}>
           <View style={[styles.circle, {backgroundColor: circleColor}]} />
           <View style={styles.contentContainer}>
-            <Text style={titleStyle} numberOfLines={1}>
+            <Text style={styles.title} numberOfLines={1}>
               {event.title}
             </Text>
             <Text style={styles.subtitle} numberOfLines={1}>

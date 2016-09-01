@@ -52,9 +52,13 @@ class Home extends Component {
     const goToFilter = () => navigator.push({name: 'Filter', sceneConfig: Navigator.SceneConfigs.FloatFromRight});
 
     var filterText = 'do something';
-    if (this.props.viewer.activeFilterCategories.edges.length > 0) {
+    const activeFilters = this.props.viewer.activeFilterCategories.edges.length;
+    if (activeFilters > 0) {
       //Remove here the two others, just keep 1 and the +
-      filterText = this.props.viewer.activeFilterCategories.edges[0].node.name + '+';
+      filterText = this.props.viewer.activeFilterCategories.edges[0].node.name;
+      if (activeFilters > 1) {
+        filterText += '+';
+      }
     }
 
     return (

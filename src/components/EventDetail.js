@@ -37,17 +37,17 @@ class EventDetail extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.imageForeground}>
-          <Image source={image} style={styles.image}>
+        <Image source={image} style={styles.image}>
+          <LinearGradient colors={['transparent', 'transparent', 'transparent', 'white']} style={styles.imageForeground}>
             <TouchableOpacity style={styles.backButton} onPress={goBack}>
               <Text style={styles.title}>{'<'}</Text>
             </TouchableOpacity>
             <View style={styles.eventListItemContainer}>
               <EventListItem {...this.props} />
             </View>
-          </Image>
-        </View>
-        <View colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.stepContainer}>
+          </LinearGradient>
+        </Image>
+        <View style={styles.stepContainer}>
           <View style={styles.labelRow}>
             <Text style={{marginHorizontal: 5}}>Sun</Text>
             <Text style={{marginHorizontal: 5}}>Multi</Text>
@@ -114,15 +114,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   image: {
-    backgroundColor: 'transparent',
-    justifyContent: 'space-between',
     width: width,
     height: height / 2,
   },
   imageForeground: {
-    backgroundColor: 'green',
     width: width,
     height: height / 2,
+    backgroundColor: 'transparent',
+    justifyContent: 'space-between',
   },
   eventListItemContainer: {
     marginHorizontal: 20,
