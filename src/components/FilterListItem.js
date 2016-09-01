@@ -11,7 +11,7 @@ import {
 
 import FilterMutation from '../mutations/FilterMutation';
 
-export default class FilterListItem extends Component {
+class FilterListItem extends Component {
 
   render() {
     const { category, active, viewer, color } = this.props;
