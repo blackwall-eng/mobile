@@ -106,7 +106,7 @@ export default class Registration extends Component {
                       blurOnSubmit={false}
                       onChangeText={(text) => this.setState({name: text})}
                       value={this.state.name}
-                      placeholder={'Sure my name is ...'}
+                      placeholder={'Sure it is ...'}
                       placeholderTextColor={'gray'}
                       returnKeyType={'next'}
                       autoFocus={true}
@@ -118,7 +118,7 @@ export default class Registration extends Component {
               case 'Email':
                 return (
                   <View>
-                    <Text style={styles.text}>Hi {name}, may I have your e-mail?</Text>
+                    <Text style={styles.text}>Hi {name},{'\n'} may I have your e-mail?</Text>
                     <TextInput
                       style={styles.input}
                       blurOnSubmit={false}
@@ -156,7 +156,7 @@ export default class Registration extends Component {
                 case 'LoginCode':
                   return (
                     <View>
-                      <Text style={styles.text}>Seems like you already used Blackwall. May I have the code you received via Email?</Text>
+                      <Text style={styles.text}>Checkpoint {name}!{'\n'}May I have the code?</Text>
                       <TextInput
                         style={styles.input}
                         onChangeText={(text) => this.setState({verficationCode: text, error: null})}
@@ -227,26 +227,36 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexDirection: 'column',
+    marginTop: -40,
   },
   text: {
-    color: 'white',
-    marginBottom: 5,
+    color: '#FFFFFF',
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    fontSize: 23,
+    marginBottom: 10,
     textAlign: 'center',
-    fontSize: 20,
+    paddingHorizontal: 40,
+    lineHeight: 35,
+
   },
   input: {
-    width: 250,
     height: 25,
-    fontSize: 20,
-    color: 'white',
-    textAlign: 'center'
+    fontSize: 23,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
   },
   errorContainer: {
 
   },
   errorText: {
-    fontSize: 20,
+    fontSize: 23,
     color: 'yellow',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    paddingHorizontal: 40,
   }
 });
