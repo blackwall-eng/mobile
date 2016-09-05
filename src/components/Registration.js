@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexDirection: 'column',
+    marginBottom: Dimensions.get('window').height / 4,
   },
   text: {
     color: 'white',
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 250,
-    height: 25,
+    height: 50,
     fontSize: 20,
     color: 'white',
     textAlign: 'center'

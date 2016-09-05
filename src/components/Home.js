@@ -39,6 +39,7 @@ class Home extends Component {
   }
 
   render() {
+
     if (this.state.renderPlaceholderOnly) {
         return (<Loading />);
     }
