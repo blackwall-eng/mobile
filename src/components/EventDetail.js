@@ -49,13 +49,19 @@ class EventDetail extends Component {
         </Image>
         <View style={styles.stepContainer}>
           <View style={styles.labelRow}>
-            <Text style={{marginHorizontal: 5}}>Sun</Text>
-            <Text style={{marginHorizontal: 5}}>Multi</Text>
-            <Text style={{marginHorizontal: 5}}>Nice</Text>
+            <Text style={styles.eventInfos}>Sun</Text>
+            <Text style={styles.eventInfos}>Multi</Text>
+            <Text style={styles.eventInfos}>Nice</Text>
           </View>
-          <Text style={[styles.stepTitle, {color: categoryColor}]}>{firstStepText}</Text>
-          <CheckButton color={categoryColor} />
-          <Text>{'•'}{'•'}{'•'}{'•'}</Text>
+          <View style={styles.stepStatus}>
+          </View>
+          <View style={styles.stepAction}>
+            <Text style={[styles.stepTitle, {color: categoryColor}]}>{firstStepText}</Text>
+          </View>
+          <View style={styles.stepStatic}>
+            <CheckButton color={categoryColor} />
+            <Text>{'•'}{'•'}{'•'}{'•'}</Text>
+          </View>
         </View>
       </View>
     );
@@ -134,19 +140,37 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     flex: 1,
-    justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'orange',
+    justifyContent: 'center',
+  },
+  labelRow: {
+    flexDirection: 'row',
+    marginTop: -21,
+  },
+      eventInfos: {
+        width: 28,
+        height: 28,
+        marginHorizontal: 10,
+        justifyContent: 'center',
+        backgroundColor: 'black',
+        color: 'white',
+        textAlign: 'center',
+      },
+  stepStatus: {
+    flex: 0,
+    height: 35,
   },
   stepTitle: {
-    fontSize: 28,
+    flex: 1,
+    fontSize: 30,
     textAlign: 'center',
     fontFamily: 'Helvetica',
     fontWeight: '100',
     paddingHorizontal: 40,
     lineHeight: 30,
   },
-  labelRow: {
-    flexDirection: 'row'
-  }
+  stepStatic: {
+    flex: 2,
+    marginTop: 12,
+  },
 });
