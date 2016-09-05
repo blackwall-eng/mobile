@@ -38,7 +38,7 @@ class EventDetail extends Component {
     return (
       <View style={styles.container}>
         <Image source={image} style={styles.image}>
-          <LinearGradient colors={['transparent', 'transparent', 'transparent', 'white']} style={styles.imageForeground}>
+          <LinearGradient colors={['transparent','transparent', 'white']} style={styles.imageForeground}>
             <TouchableOpacity style={styles.backButton} onPress={goBack}>
               <Text style={styles.title}>{'<'}</Text>
             </TouchableOpacity>
@@ -53,7 +53,7 @@ class EventDetail extends Component {
             <Text style={{marginHorizontal: 5}}>Multi</Text>
             <Text style={{marginHorizontal: 5}}>Nice</Text>
           </View>
-          <Text style={{color: categoryColor, fontSize: 25, textAlign: 'center'}}>{firstStepText}</Text>
+          <Text style={[styles.stepTitle, {color: categoryColor}]}>{firstStepText}</Text>
           <CheckButton color={categoryColor} />
           <Text>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
@@ -115,17 +115,17 @@ const styles = StyleSheet.create({
   },
   image: {
     width: width,
-    height: height / 2,
+    height: height / 1.75,
   },
   imageForeground: {
     width: width,
-    height: height / 2,
+    height: height / 1.75,
     backgroundColor: 'transparent',
     justifyContent: 'space-between',
   },
   eventListItemContainer: {
     marginHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: 35,
     shadowRadius: 5,
     shadowOpacity: 0.3,
     shadowColor: 'black',
@@ -136,6 +136,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: 'orange',
+  },
+  stepTitle: {
+    fontSize: 28,
+    textAlign: 'center',
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    paddingHorizontal: 40,
+    lineHeight: 30,
   },
   labelRow: {
     flexDirection: 'row'
