@@ -86,6 +86,6 @@ export default class Blackwall extends Component {
       return <Registration onSuccess={saveToken} />
     }
 
-    return <Loading />
+    return <Loading />;
   }
 }
