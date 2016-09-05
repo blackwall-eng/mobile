@@ -35,9 +35,9 @@ export default class CheckButton extends Component {
   }
 }
 
-const size = 80;
-const shadowSize = 10;
-const ringThickness = 7;
+const size = 102;
+const shadowSize = 16;
+const ringThickness = 8;
 
 const styles = StyleSheet.create({
   shadowCircle: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     width: size,
     height: size,
     borderRadius: size / 2,
-    backgroundColor: 'rgba(255,255,255,0.8)',
+    backgroundColor: 'rgba(255,255,255,0.9)',
   },
   outerCircle: {
     justifyContent: 'center',
