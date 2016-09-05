@@ -107,7 +107,7 @@ export default class Registration extends Component {
                       onChangeText={(text) => this.setState({name: text})}
                       value={this.state.name}
                       placeholder={'Sure it is ...'}
-                      placeholderTextColor={'gray'}
+                      placeholderTextColor={'rgba(255, 255, 255, 0.3)'}
                       returnKeyType={'next'}
                       autoFocus={true}
                       autoCorrect={false}
@@ -125,7 +125,7 @@ export default class Registration extends Component {
                       onChangeText={(text) => this.setState({email: text, error: null})}
                       value={this.state.email}
                       placeholder={'Sure it is ...'}
-                      placeholderTextColor={'gray'}
+                      placeholderTextColor={'rgba(255, 255, 255, 0.3)'}
                       returnKeyType={'next'}
                       keyboardType={'email-address'}
                       autoCapitalize={'none'}
@@ -144,7 +144,7 @@ export default class Registration extends Component {
                       onChangeText={(text) => this.setState({verficationCode: text, error: null})}
                       value={this.state.verficationCode}
                       placeholder={'It is ...'}
-                      placeholderTextColor={'gray'}
+                      placeholderTextColor={'rgba(255, 255, 255, 0.3)'}
                       returnKeyType={'done'}
                       maxLength={4}
                       keyboardType={'numeric'}
@@ -161,8 +161,8 @@ export default class Registration extends Component {
                         style={styles.input}
                         onChangeText={(text) => this.setState({verficationCode: text, error: null})}
                         value={this.state.verficationCode}
-                        placeholder={'It is ...'}
-                        placeholderTextColor={'gray'}
+                        placeholder={'••••'}
+                        placeholderTextColor={'rgba(255, 255, 255, 0.3)'}
                         returnKeyType={'done'}
                         maxLength={4}
                         keyboardType={'numeric'}
@@ -228,35 +228,37 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'column',
     marginTop: -40,
+    paddingHorizontal: 40,
   },
   text: {
     color: '#FFFFFF',
-    fontFamily: 'Helvetica',
-    fontWeight: '100',
-    fontSize: 23,
+    fontFamily: 'HelveticaNeue',
+    fontWeight: '200',
+    fontSize: 28,
     marginBottom: 10,
     textAlign: 'center',
-    paddingHorizontal: 40,
-    lineHeight: 35,
+    lineHeight: 33,
+    backgroundColor: 'transparent',
 
   },
   input: {
-    height: 25,
-    fontSize: 23,
+    marginTop: -5,
+    height: 28,
+    fontSize: 28,
     textAlign: 'center',
     color: '#FFFFFF',
-    fontFamily: 'Helvetica',
-    fontWeight: '100',
+    fontFamily: 'HelveticaNeue',
+    fontWeight: '200',
   },
   errorContainer: {
 
   },
   errorText: {
-    fontSize: 23,
+    backgroundColor: 'transparent',
+    fontSize: 28,
     color: 'yellow',
     textAlign: 'center',
-    fontFamily: 'Helvetica',
-    fontWeight: '100',
-    paddingHorizontal: 40,
+    fontFamily: 'HelveticaNeue',
+    fontWeight: '200',
   }
 });
