@@ -8,16 +8,19 @@ import {
   Text
 } from 'react-native';
 
+import CheckButton from '../CheckButton';
+
 class TextStep extends Component {
 
   render() {
     const { step, color } = this.props;
 
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={[styles.text, {color: color}]}>
           {step.text}
         </Text>
+        <CheckButton color={color} />
       </View>
     );
   }
@@ -38,13 +41,15 @@ export default Relay.createContainer(TextStep, {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   text: {
     fontSize: 28,
     textAlign: 'center',
     fontFamily: 'Helvetica',
     fontWeight: '100',
-    paddingHorizontal: 40,
+    marginHorizontal: 40,
     lineHeight: 30,
   },
 });

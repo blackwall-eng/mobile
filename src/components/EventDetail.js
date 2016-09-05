@@ -16,7 +16,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import NoImage from './noimagefound.jpg';
 
 import EventListItem from './EventListItem';
-import CheckButton from './CheckButton';
 
 import Step from './Step';
 
@@ -45,14 +44,15 @@ class EventDetail extends Component {
           </LinearGradient>
         </Image>
         <View style={styles.stepContainer}>
-          <View style={styles.labelRow}>
-            <Text style={{marginHorizontal: 5}}>Sun</Text>
-            <Text style={{marginHorizontal: 5}}>Multi</Text>
-            <Text style={{marginHorizontal: 5}}>Nice</Text>
-          </View>
+          { story.currentStepNumber === 1 ? (
+            <View style={styles.labelRow}>
+              <Text style={{marginHorizontal: 5}}>Sun</Text>
+              <Text style={{marginHorizontal: 5}}>Multi</Text>
+              <Text style={{marginHorizontal: 5}}>Nice</Text>
+            </View>
+          ) : null }
           <Step step={story.currentStep} color={categoryColor} />
-          <CheckButton color={categoryColor} />
-          <Text>{'•'}{'•'}{'•'}{'•'}</Text>
+          <Text style={{marginBottom: 20}}>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
       </View>
     );
@@ -70,7 +70,8 @@ export default Relay.createContainer(EventDetail, {
       fragment on Story {
         currentStep {
           ${Step.getFragment('step')}
-        }
+        },
+        currentStepNumber,
         event {
           title,
           subtitle,
@@ -131,14 +132,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: 'white',
-  },
-  stepTitle: {
-    fontSize: 28,
-    textAlign: 'center',
-    fontFamily: 'Helvetica',
-    fontWeight: '100',
-    paddingHorizontal: 40,
-    lineHeight: 30,
   },
   labelRow: {
     flexDirection: 'row'
