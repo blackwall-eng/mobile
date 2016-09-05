@@ -18,22 +18,19 @@ import NoImage from './noimagefound.jpg';
 import EventListItem from './EventListItem';
 import CheckButton from './CheckButton';
 
+import Step from './Step';
+
 class EventDetail extends Component {
 
   render() {
-    const { navigator, event } = this.props;
+    const { navigator, story } = this.props;
+    const event = story.event;
 
     const goBack = () => navigator.pop();
 
     const image = event.image ? {uri: event.image} : NoImage;
 
     const categoryColor = event.categories.edges[0].node.color;
-
-
-    var firstStepText = "";
-    if (event.steps.edges.length > 0) {
-      firstStepText = event.steps.edges[0].node.text;
-    }
 
     return (
       <View style={styles.container}>
@@ -43,7 +40,7 @@ class EventDetail extends Component {
               <Text style={styles.title}>{'<'}</Text>
             </TouchableOpacity>
             <View style={styles.eventListItemContainer}>
-              <EventListItem {...this.props} />
+              <EventListItem event={event} />
             </View>
           </LinearGradient>
         </Image>
@@ -53,7 +50,7 @@ class EventDetail extends Component {
             <Text style={{marginHorizontal: 5}}>Multi</Text>
             <Text style={{marginHorizontal: 5}}>Nice</Text>
           </View>
-          <Text style={[styles.stepTitle, {color: categoryColor}]}>{firstStepText}</Text>
+          <Step step={story.currentStep} color={categoryColor} />
           <CheckButton color={categoryColor} />
           <Text>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
@@ -69,29 +66,24 @@ export default Relay.createContainer(EventDetail, {
         name
       }
     `,
-    event: () => Relay.QL`
-      fragment on Event {
-        title,
-        subtitle,
-        image,
-        steps(first: 10) {
-          edges {
-            node {
-              __typename,
-              ... on TextStep {
-                text
+    story: () => Relay.QL`
+      fragment on Story {
+        currentStep {
+          ${Step.getFragment('step')}
+        }
+        event {
+          title,
+          subtitle,
+          image,
+          categories(first: 1) {
+            edges {
+              node {
+                color
               }
             }
-          }
-        },
-        categories(first: 1) {
-          edges {
-            node {
-              color
-            }
-          }
-        },
-        ${EventListItem.getFragment('event')}
+          },
+          ${EventListItem.getFragment('event')}
+        }
       }
     `,
   },
@@ -105,8 +97,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   backButton: {
-    marginTop: 20,
+    marginTop: 25,
     marginLeft: 20,
+    height: 60,
+    width: 60,
     alignSelf: 'flex-start',
   },
   title: {
@@ -136,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'orange',
+    backgroundColor: 'white',
   },
   stepTitle: {
     fontSize: 28,

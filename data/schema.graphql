@@ -76,6 +76,7 @@ type Query {
   node(id: ID!): Node
   viewer: User
   events(categories: [String] = [], after: String, first: Int, before: String, last: Int): EventConnection
+  story(eventID: Int): Story
   event(id: Int): Event
 }
 
@@ -106,7 +107,8 @@ type StepEdge {
 type Story implements Node {
   id: ID!
   storyID: Int
-  currentStep: Int
+  currentStepNumber: Int
+  currentStep: Step
   startTime: String
   finishTime: String
   event: Event

@@ -121,6 +121,29 @@
               "deprecationReason": null
             },
             {
+              "name": "story",
+              "description": null,
+              "args": [
+                {
+                  "name": "eventID",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Story",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "event",
               "description": null,
               "args": [
@@ -1227,12 +1250,24 @@
               "deprecationReason": null
             },
             {
-              "name": "currentStep",
+              "name": "currentStepNumber",
               "description": null,
               "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "currentStep",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "UNION",
+                "name": "Step",
                 "ofType": null
               },
               "isDeprecated": false,

@@ -15,11 +15,11 @@ export default class EventRoute extends Route {
         viewer
       }
     `,
-    event: () => Relay.QL`
+    story: () => Relay.QL`
       query {
-        event(id: $eventID)
+        story(eventID: $eventID)
       }
-    `,
+    `
   };
   static routeName = 'EventRoute';
 }
