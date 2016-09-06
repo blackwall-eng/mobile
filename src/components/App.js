@@ -87,6 +87,7 @@ export default class App extends Component {
                     Container={EventDetail}
                     queryConfig={new EventRoute({eventID: eventID})}
                     environment={Relay.Store}
+                    forceFetch={true}
                     render={renderEventDetail}
                     />
                 );

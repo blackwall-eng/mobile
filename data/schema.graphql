@@ -31,6 +31,28 @@ type CategoryEdge {
   cursor: String!
 }
 
+input CompleteStepInput {
+  storyID: Int!
+  userID: Int!
+  clientMutationId: String!
+}
+
+type CompleteStepPayload {
+  story: Story
+  clientMutationId: String!
+}
+
+input CompleteStoryInput {
+  storyID: Int!
+  userID: Int!
+  clientMutationId: String!
+}
+
+type CompleteStoryPayload {
+  story: Story
+  clientMutationId: String!
+}
+
 type Event implements Node {
   id: ID!
   eventID: Int
@@ -43,6 +65,7 @@ type Event implements Node {
   image: String
   categories(after: String, first: Int, before: String, last: Int): CategoryConnection
   numberOfFriends: String
+  numberOfSteps: Int
   steps(after: String, first: Int, before: String, last: Int): StepConnection
 }
 
@@ -59,6 +82,8 @@ type EventEdge {
 type Mutation {
   addCategoryFilter(input: AddFilterCategoryInput!): AddFilterCategoryPayload
   removeCategoryFilter(input: RemoveFilterCategoryInput!): RemoveFilterCategoryPayload
+  completeStep(input: CompleteStepInput!): CompleteStepPayload
+  completeStory(input: CompleteStoryInput!): CompleteStoryPayload
 }
 
 interface Node {
@@ -76,6 +101,7 @@ type Query {
   node(id: ID!): Node
   viewer: User
   events(categories: [String] = [], after: String, first: Int, before: String, last: Int): EventConnection
+  story(eventID: Int): Story
   event(id: Int): Event
 }
 
@@ -106,7 +132,8 @@ type StepEdge {
 type Story implements Node {
   id: ID!
   storyID: Int
-  currentStep: Int
+  currentStepNumber: Int
+  currentStep: Step
   startTime: String
   finishTime: String
   event: Event

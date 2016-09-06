@@ -6,7 +6,12 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
-    "update-schema": "node scripts/updateSchema.js"
+    "update-schema": "node scripts/updateSchema.js",
+    "start-reset-cache": "npm start -- --reset-cache",
+    "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
+    "clean-start": "npm run clean && npm run rc-start",
+    "fresh-install": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build/ModuleCache/* && rm -rf node_modules/ && npm cache clean && npm install",
+    "fresh-start" : "npm run fresh-install && npm run rc-start"
   },
   "dependencies": {
     "babel-preset-react-native": "1.9.0",

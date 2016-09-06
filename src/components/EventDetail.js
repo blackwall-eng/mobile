@@ -16,12 +16,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import NoImage from './noimagefound.jpg';
 
 import EventListItem from './EventListItem';
-import CheckButton from './CheckButton';
+
+import Step from './Step';
+import StepMutation from '../mutations/StepMutation';
+import CompleteStoryMutation from '../mutations/CompleteStoryMutation';
 
 class EventDetail extends Component {
 
   render() {
-    const { navigator, event } = this.props;
+    const { navigator, story } = this.props;
+    const event = story.event;
 
     const goBack = () => navigator.pop();
 
@@ -29,36 +33,62 @@ class EventDetail extends Component {
 
     const categoryColor = event.categories.edges[0].node.color;
 
-
-    var firstStepText = "";
-    if (event.steps.edges.length > 0) {
-      firstStepText = event.steps.edges[0].node.text;
+    const onStepDone = () => {
+      this.props.relay.commitUpdate(
+        new StepMutation(this.props)
+      );
     }
 
-    return (
+    const completeAndGoBack = () => {
+      navigator.pop();
+      this.props.relay.commitUpdate(
+        new CompleteStoryMutation(this.props)
+      );
+    }
+
+    const imageForegroundStyle = image === NoImage ? [styles.imageForeground, {backgroundColor: categoryColor}] : styles.imageForeground;
+
+    const standardView = (
       <View style={styles.container}>
         <Image source={image} style={styles.image}>
-          <LinearGradient colors={['transparent','transparent', 'white']} style={styles.imageForeground}>
+          <LinearGradient colors={['transparent','transparent', 'white']} style={imageForegroundStyle}>
             <TouchableOpacity style={styles.backButton} onPress={goBack}>
               <Text style={styles.title}>{'<'}</Text>
             </TouchableOpacity>
             <View style={styles.eventListItemContainer}>
-              <EventListItem {...this.props} />
+              <EventListItem event={event} />
             </View>
           </LinearGradient>
         </Image>
         <View style={styles.stepContainer}>
-          <View style={styles.labelRow}>
-            <Text style={{marginHorizontal: 5}}>Sun</Text>
-            <Text style={{marginHorizontal: 5}}>Multi</Text>
-            <Text style={{marginHorizontal: 5}}>Nice</Text>
-          </View>
-          <Text style={[styles.stepTitle, {color: categoryColor}]}>{firstStepText}</Text>
-          <CheckButton color={categoryColor} />
-          <Text>{'•'}{'•'}{'•'}{'•'}</Text>
+          { story.currentStepNumber === 1 ? (
+            <View style={styles.labelRow}>
+              <Text style={{marginHorizontal: 5}}>Sun</Text>
+              <Text style={{marginHorizontal: 5}}>Multi</Text>
+              <Text style={{marginHorizontal: 5}}>Nice</Text>
+            </View>
+          ) : null }
+          <Step step={story.currentStep} color={categoryColor} onDone={onStepDone} />
+          <Text style={{marginBottom: 20}}>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
       </View>
     );
+
+    if (story.currentStepNumber > event.numberOfSteps) {
+      return (
+        <View style={{flex: 1}}>
+          {standardView}
+          <View style={[styles.overlayContainer, {backgroundColor: categoryColor}]} />
+          <TouchableOpacity style={styles.overlayContentContainer} onPress={completeAndGoBack}>
+            {/* This view should be replaced with the waving hand image */}
+            <View style={{height: 150, width: 150, backgroundColor: 'white'}}/>
+            <Text style={styles.overlayText}>Remember this experience until next time</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
+    return standardView;
   }
 }
 
@@ -66,32 +96,33 @@ export default Relay.createContainer(EventDetail, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        name
+        name,
+        ${StepMutation.getFragment('viewer')}
+        ${CompleteStoryMutation.getFragment('viewer')}
       }
     `,
-    event: () => Relay.QL`
-      fragment on Event {
-        title,
-        subtitle,
-        image,
-        steps(first: 10) {
-          edges {
-            node {
-              __typename,
-              ... on TextStep {
-                text
+    story: () => Relay.QL`
+      fragment on Story {
+        currentStep {
+          ${Step.getFragment('step')}
+        },
+        currentStepNumber,
+        ${StepMutation.getFragment('story')}
+        ${CompleteStoryMutation.getFragment('story')}
+        event {
+          title,
+          subtitle,
+          image,
+          numberOfSteps,
+          categories(first: 1) {
+            edges {
+              node {
+                color
               }
             }
-          }
-        },
-        categories(first: 1) {
-          edges {
-            node {
-              color
-            }
-          }
-        },
-        ${EventListItem.getFragment('event')}
+          },
+          ${EventListItem.getFragment('event')},
+        }
       }
     `,
   },
@@ -105,8 +136,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   backButton: {
-    marginTop: 20,
+    marginTop: 25,
     marginLeft: 20,
+    height: 60,
+    width: 60,
     alignSelf: 'flex-start',
   },
   title: {
@@ -136,17 +169,36 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'orange',
-  },
-  stepTitle: {
-    fontSize: 28,
-    textAlign: 'center',
-    fontFamily: 'Helvetica',
-    fontWeight: '100',
-    paddingHorizontal: 40,
-    lineHeight: 30,
+    backgroundColor: 'white',
   },
   labelRow: {
     flexDirection: 'row'
+  },
+  overlayContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    opacity: 0.9
+  },
+  overlayContentContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
+  overlayText: {
+    fontSize: 28,
+    textAlign: 'center',
+    fontFamily: 'HelveticaNeue',
+    marginHorizontal: 80,
+    marginTop: 50,
+    lineHeight: 30,
+    color: 'white'
   }
 });
