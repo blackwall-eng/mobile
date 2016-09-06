@@ -6,17 +6,22 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
-    "update-schema": "node scripts/updateSchema.js"
+    "update-schema": "node scripts/updateSchema.js",
+    "start-reset-cache": "npm start -- --reset-cache",
+    "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
+    "clean-start": "npm run clean && npm run rc-start",
+    "fresh-install": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build/ModuleCache/* && rm -rf node_modules/ && npm cache clean && npm install",
+    "fresh-start" : "npm run fresh-install && npm run rc-start"
   },
   "dependencies": {
     "babel-preset-react-native": "1.9.0",
-    "babel-relay-plugin": "0.9.2",
+    "babel-relay-plugin": "0.9.3",
     "react": "~15.3.1",
     "react-native": "^0.32.0",
     "react-native-linear-gradient": "^1.5.12",
     "react-native-parallax-scroll-view": "^0.19.0",
-    "react-native-scrollable-tab-view": "^0.5.4",
-    "react-relay": "0.9.2"
+    "react-native-scrollable-tab-view": "0.5.5",
+    "react-relay": "0.9.3"
   },
   "devDependencies": {
     "babel-cli": "6.14.0",

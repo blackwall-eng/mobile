@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexDirection: 'column',
-    marginTop: -40,
+    marginBottom: Dimensions.get('window').height / 4,
     paddingHorizontal: 40,
   },
   text: {
@@ -243,8 +243,9 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: -5,
-    height: 28,
     fontSize: 28,
+    width: 250,
+    height: 50,
     textAlign: 'center',
     color: '#FFFFFF',
     fontFamily: 'HelveticaNeue',

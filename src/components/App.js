@@ -43,6 +43,7 @@ export default class App extends Component {
                     return <Loading />;
                   }
                 }
+
                 return (
                   <Renderer
                     Container={Home}
@@ -86,6 +87,7 @@ export default class App extends Component {
                     Container={EventDetail}
                     queryConfig={new EventRoute({eventID: eventID})}
                     environment={Relay.Store}
+                    forceFetch={true}
                     render={renderEventDetail}
                     />
                 );
@@ -95,14 +97,16 @@ export default class App extends Component {
         return (
           <Image source={StarsImage} style={styles.stars}>
             <StatusBar barStyle="light-content" />
-            <ScrollableTabView renderTabBar={() => <View />}>
+            {/*<ScrollableTabView renderTabBar={() => <View />}>*/}
               <View tabLabel="Main" style={styles.scene}>
                 {getContentView()}
               </View>
+            {/*
               <View tabLabel="Profile" style={{flex: 1, justifyContent: 'center'}}>
                 <Text style={{color: 'white'}}>Profile</Text>
               </View>
             </ScrollableTabView>
+            */}
           </Image>
         )
     }
