@@ -19,6 +19,7 @@ import EventListItem from './EventListItem';
 
 import Step from './Step';
 import StepMutation from '../mutations/StepMutation';
+import CompleteStoryMutation from '../mutations/CompleteStoryMutation';
 
 class EventDetail extends Component {
 
@@ -38,10 +39,19 @@ class EventDetail extends Component {
       );
     }
 
+    const completeAndGoBack = () => {
+      navigator.pop();
+      this.props.relay.commitUpdate(
+        new CompleteStoryMutation(this.props)
+      );
+    }
+
+    const imageForegroundStyle = image === NoImage ? [styles.imageForeground, {backgroundColor: categoryColor}] : styles.imageForeground;
+
     const standardView = (
       <View style={styles.container}>
         <Image source={image} style={styles.image}>
-          <LinearGradient colors={['transparent','transparent', 'white']} style={styles.imageForeground}>
+          <LinearGradient colors={['transparent','transparent', 'white']} style={imageForegroundStyle}>
             <TouchableOpacity style={styles.backButton} onPress={goBack}>
               <Text style={styles.title}>{'<'}</Text>
             </TouchableOpacity>
@@ -69,10 +79,11 @@ class EventDetail extends Component {
         <View style={{flex: 1}}>
           {standardView}
           <View style={[styles.overlayContainer, {backgroundColor: categoryColor}]} />
-          <View style={styles.overlayContentContainer}>
+          <TouchableOpacity style={styles.overlayContentContainer} onPress={completeAndGoBack}>
+            {/* This view should be replaced with the waving hand image */}
             <View style={{height: 150, width: 150, backgroundColor: 'white'}}/>
             <Text style={styles.overlayText}>Remember this experience until next time</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       );
     }
@@ -87,6 +98,7 @@ export default Relay.createContainer(EventDetail, {
       fragment on User {
         name,
         ${StepMutation.getFragment('viewer')}
+        ${CompleteStoryMutation.getFragment('viewer')}
       }
     `,
     story: () => Relay.QL`
@@ -96,6 +108,7 @@ export default Relay.createContainer(EventDetail, {
         },
         currentStepNumber,
         ${StepMutation.getFragment('story')}
+        ${CompleteStoryMutation.getFragment('story')}
         event {
           title,
           subtitle,

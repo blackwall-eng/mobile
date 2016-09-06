@@ -2,9 +2,7 @@
 
 import Relay from 'react-relay';
 
-import Step from '../components/Step';
-
-export default class StepMutation extends Relay.Mutation {
+export default class CompleteStoryMutation extends Relay.Mutation {
   static fragments = {
     viewer: () => Relay.QL`
       fragment on User {
@@ -16,26 +14,12 @@ export default class StepMutation extends Relay.Mutation {
       fragment on Story {
         id,
         storyID,
-        currentStepNumber,
-        event {
-          steps(first: 50) {
-            edges {
-              node {
-                ... on TextStep {
-                  id
-                  stepID
-                  text
-                }
-              }
-            }
-          }
-        }
       }
     `
   };
 
   getMutation() {
-    return Relay.QL`mutation {completeStep}`;
+    return Relay.QL`mutation {completeStory}`;
   }
 
   getVariables() {
@@ -50,7 +34,7 @@ export default class StepMutation extends Relay.Mutation {
     const { story } = this.props;
 
     return Relay.QL`
-      fragment on CompleteStepPayload {
+      fragment on CompleteStoryPayload {
         story
       }
     `;
@@ -59,17 +43,10 @@ export default class StepMutation extends Relay.Mutation {
   getOptimisticResponse() {
     const { story } = this.props;
 
-    var nextStep = null;
-    if (story.event.steps.edges.length > story.currentStepNumber) {
-      nextStep = story.event.steps.edges[story.currentStepNumber].node;
-      console.log('step', nextStep);
-    }
-
     return {
       story: {
         id: story.id,
-        currentStepNumber: story.currentStepNumber + 1,
-        currentStep: nextStep
+        finishTime: new Date()
       },
     };
   }

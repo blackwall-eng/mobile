@@ -42,6 +42,17 @@ type CompleteStepPayload {
   clientMutationId: String!
 }
 
+input CompleteStoryInput {
+  storyID: Int!
+  userID: Int!
+  clientMutationId: String!
+}
+
+type CompleteStoryPayload {
+  story: Story
+  clientMutationId: String!
+}
+
 type Event implements Node {
   id: ID!
   eventID: Int
@@ -72,6 +83,7 @@ type Mutation {
   addCategoryFilter(input: AddFilterCategoryInput!): AddFilterCategoryPayload
   removeCategoryFilter(input: RemoveFilterCategoryInput!): RemoveFilterCategoryPayload
   completeStep(input: CompleteStepInput!): CompleteStepPayload
+  completeStory(input: CompleteStoryInput!): CompleteStoryPayload
 }
 
 interface Node {
