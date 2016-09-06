@@ -38,7 +38,7 @@ class EventDetail extends Component {
       );
     }
 
-    return (
+    const standardView = (
       <View style={styles.container}>
         <Image source={image} style={styles.image}>
           <LinearGradient colors={['transparent','transparent', 'white']} style={styles.imageForeground}>
@@ -63,6 +63,21 @@ class EventDetail extends Component {
         </View>
       </View>
     );
+
+    if (story.currentStepNumber > event.numberOfSteps) {
+      return (
+        <View style={{flex: 1}}>
+          {standardView}
+          <View style={[styles.overlayContainer, {backgroundColor: categoryColor}]} />
+          <View style={styles.overlayContentContainer}>
+            <View style={{height: 150, width: 150, backgroundColor: 'white'}}/>
+            <Text style={styles.overlayText}>Remember this experience until next time</Text>
+          </View>
+        </View>
+      );
+    }
+
+    return standardView;
   }
 }
 
@@ -85,6 +100,7 @@ export default Relay.createContainer(EventDetail, {
           title,
           subtitle,
           image,
+          numberOfSteps,
           categories(first: 1) {
             edges {
               node {
@@ -144,5 +160,32 @@ const styles = StyleSheet.create({
   },
   labelRow: {
     flexDirection: 'row'
+  },
+  overlayContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    opacity: 0.9
+  },
+  overlayContentContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
+  overlayText: {
+    fontSize: 28,
+    textAlign: 'center',
+    fontFamily: 'HelveticaNeue',
+    marginHorizontal: 80,
+    marginTop: 50,
+    lineHeight: 30,
+    color: 'white'
   }
 });
