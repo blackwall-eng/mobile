@@ -31,6 +31,17 @@ type CategoryEdge {
   cursor: String!
 }
 
+input CompleteStepInput {
+  storyID: Int!
+  userID: Int!
+  clientMutationId: String!
+}
+
+type CompleteStepPayload {
+  story: Story
+  clientMutationId: String!
+}
+
 type Event implements Node {
   id: ID!
   eventID: Int
@@ -43,6 +54,7 @@ type Event implements Node {
   image: String
   categories(after: String, first: Int, before: String, last: Int): CategoryConnection
   numberOfFriends: String
+  numberOfSteps: Int
   steps(after: String, first: Int, before: String, last: Int): StepConnection
 }
 
@@ -59,6 +71,7 @@ type EventEdge {
 type Mutation {
   addCategoryFilter(input: AddFilterCategoryInput!): AddFilterCategoryPayload
   removeCategoryFilter(input: RemoveFilterCategoryInput!): RemoveFilterCategoryPayload
+  completeStep(input: CompleteStepInput!): CompleteStepPayload
 }
 
 interface Node {

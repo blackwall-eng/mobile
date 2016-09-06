@@ -13,14 +13,14 @@ import CheckButton from '../CheckButton';
 class TextStep extends Component {
 
   render() {
-    const { step, color } = this.props;
+    const { step, color, onDone } = this.props;
 
     return (
       <View style={styles.container}>
         <Text style={[styles.text, {color: color}]}>
           {step.text}
         </Text>
-        <CheckButton color={color} />
+        <CheckButton color={color} onPress={onDone} />
       </View>
     );
   }

@@ -18,6 +18,7 @@ import NoImage from './noimagefound.jpg';
 import EventListItem from './EventListItem';
 
 import Step from './Step';
+import StepMutation from '../mutations/StepMutation';
 
 class EventDetail extends Component {
 
@@ -30,6 +31,12 @@ class EventDetail extends Component {
     const image = event.image ? {uri: event.image} : NoImage;
 
     const categoryColor = event.categories.edges[0].node.color;
+
+    const onStepDone = () => {
+      this.props.relay.commitUpdate(
+        new StepMutation(this.props)
+      );
+    }
 
     return (
       <View style={styles.container}>
@@ -51,7 +58,7 @@ class EventDetail extends Component {
               <Text style={{marginHorizontal: 5}}>Nice</Text>
             </View>
           ) : null }
-          <Step step={story.currentStep} color={categoryColor} />
+          <Step step={story.currentStep} color={categoryColor} onDone={onStepDone} />
           <Text style={{marginBottom: 20}}>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
       </View>
@@ -63,7 +70,8 @@ export default Relay.createContainer(EventDetail, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        name
+        name,
+        ${StepMutation.getFragment('viewer')}
       }
     `,
     story: () => Relay.QL`
@@ -72,6 +80,7 @@ export default Relay.createContainer(EventDetail, {
           ${Step.getFragment('step')}
         },
         currentStepNumber,
+        ${StepMutation.getFragment('story')}
         event {
           title,
           subtitle,
@@ -83,7 +92,7 @@ export default Relay.createContainer(EventDetail, {
               }
             }
           },
-          ${EventListItem.getFragment('event')}
+          ${EventListItem.getFragment('event')},
         }
       }
     `,
