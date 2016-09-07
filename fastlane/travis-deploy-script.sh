@@ -1,4 +1,4 @@
-#/usr/bin/env/sh
+#!/bin/sh
 set -ev
 
 if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]
