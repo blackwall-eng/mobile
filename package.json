@@ -11,7 +11,8 @@
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
     "clean-start": "npm run clean && npm run rc-start",
     "fresh-install": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build/ModuleCache/* && rm -rf node_modules/ && npm cache clean && npm install",
-    "fresh-start" : "npm run fresh-install && npm run rc-start"
+    "fresh-start": "npm run fresh-install && npm run rc-start",
+    "storybook": "storybook start -p 7007"
   },
   "dependencies": {
     "babel-preset-react-native": "1.9.0",
@@ -26,7 +27,8 @@
   "devDependencies": {
     "babel-cli": "6.14.0",
     "babel-core": "6.14.0",
-    "node-fetch": "^1.6.0"
+    "node-fetch": "^1.6.0",
+    "@kadira/react-native-storybook": "^2.0.0"
   },
   "engines": {
     "npm": ">=3"
