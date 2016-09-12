@@ -30,11 +30,8 @@ case "$CONFIGURATION" in
     ;;
 esac
 
-# Path to react-native folder inside node_modules
-REACT_NATIVE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-
 # Xcode project file for React Native apps is located in ios/ subfolder
-cd ..
+cd ../ios
 
 # Define NVM_DIR and source the nvm.sh setup script
 [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
@@ -80,7 +77,9 @@ if [[ "$CONFIGURATION" = "Debug" && "$PLATFORM_NAME" != "iphonesimulator" ]]; th
   echo "$IP.xip.io" > "$DEST/ip.txt"
 fi
 
-$NODE_BINARY "$REACT_NATIVE_DIR/local-cli/cli.js" bundle \
+cd ..
+
+$NODE_BINARY "node_modules/react-native/local-cli/cli.js" bundle \
   --entry-file "$ENTRY_FILE" \
   --platform ios \
   --dev $DEV \
