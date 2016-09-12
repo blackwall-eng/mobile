@@ -6,7 +6,7 @@ env:
   - PLATFORM=ios
 
 rvm:
-  - 2.3.1
+  - 2.2.5
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
