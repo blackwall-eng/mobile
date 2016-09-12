@@ -1,7 +1,5 @@
 language: objective-c
 osx_image: xcode7.1
-node_js:
-  - "6"
 
 env:
   - PLATFORM=android
@@ -26,7 +24,7 @@ before_install:
   - gem install badge --no-ri --no-rdoc --no-document
 
 install:
-  - brew install gradle flow watchman xctool android-sdk imagemagick
+  - brew install gradle flow watchman xctool android-sdk imagemagick node
   - export ANDROID_HOME=/usr/local/opt/android-sdk
   - echo y | android update sdk -u --all --filter platform-tools,android-23,addon-google_apis-google-23,build-tools-23.0.1,extra-android-m2repository
   - npm -v
