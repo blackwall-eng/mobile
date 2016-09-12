@@ -40,3 +40,6 @@ install:
 script: fastlane/travis-build-script.sh
 
 after_success: fastlane/travis-deploy-script.sh
+
+notifications:
+  email: false
