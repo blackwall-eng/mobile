@@ -12,7 +12,17 @@ import com.BV.LinearGradient.LinearGradientPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.bugsnag.android.*;
+
 public class MainApplication extends Application implements ReactApplication {
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    Configuration config = new Configuration(Constants.BUGSNAG_KEY);
+    config.setPersistUserBetweenSessions(true);
+    Bugsnag.init(this, config);
+  }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -24,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new LinearGradientPackage()
+          new LinearGradientPackage(),
+          new AppPackage()
       );
     }
   };

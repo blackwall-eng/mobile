@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode7.1
+osx_image: xcode8
 
 env:
   - PLATFORM=android
@@ -27,8 +27,16 @@ install:
   - brew install gradle flow watchman xctool android-sdk imagemagick
   - export ANDROID_HOME=/usr/local/opt/android-sdk
   - echo y | android update sdk -u --all --filter platform-tools,android-23,addon-google_apis-google-23,build-tools-23.0.1,extra-android-m2repository
+  - nvm install 6.2.2
+  - nvm use --delete-prefix 6.2.2
+  - npm -v
+  - node -v
+  - npm cache clean
   - npm install
 
 script: fastlane/travis-build-script.sh
 
 after_success: fastlane/travis-deploy-script.sh
+
+notifications:
+  email: false

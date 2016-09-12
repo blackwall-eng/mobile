@@ -34,6 +34,15 @@ platform :ios do
     # ensure_git_status_clean
   end
 
+  desc "Setup configuration"
+  lane :config do
+    filepath = "../ios/Constants.h"
+    IO.write(filepath, File.open(filepath) do |f|
+        f.read.gsub("PLACEHOLDER_BUGSNAG_KEY", ENV["BUGSNAG_IOS"])
+      end
+    )
+  end
+
   desc "Runs all the tests"
   lane :test do
     scan(
@@ -44,6 +53,8 @@ platform :ios do
   end
 
   lane :prepare_deploy do
+    config
+
     increment_build_number(
       build_number: number_of_commits,
       xcodeproj: XCODEPROJ
@@ -155,6 +166,15 @@ platform :android do
     # ensure_git_status_clean
   end
 
+  desc "Setup configuration"
+  lane :config do
+    filepath = "../android/app/src/main/java/co/blackwall/Constants.java"
+    IO.write(filepath, File.open(filepath) do |f|
+        f.read.gsub("PLACEHOLDER_BUGSNAG_KEY", ENV["BUGSNAG_ANDROID"])
+      end
+    )
+  end
+
   desc "Run the tests"
   lane :test do
     gradle(
@@ -165,8 +185,10 @@ platform :android do
     )
   end
 
-  desc "Deploy a new version to Crashlytics"
+  desc "Deploy a new version to HockeyApp"
   lane :beta do
+    config
+
     gradle(
       task: "assemble",
       build_type: "Release",

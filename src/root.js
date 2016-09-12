@@ -1,5 +1,7 @@
 'use strict';
 
+require('./configureErrorManager.js');
+
 import App from './components/App';
 import AppRoute from './routes/AppRoute';
 import React, {
@@ -7,11 +9,12 @@ import React, {
 } from 'react';
 
 import {
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
 
 import Relay, {
   DefaultNetworkLayer,
+  Renderer
 } from 'react-relay';
 
 import Registration from './components/Registration';
@@ -68,7 +71,24 @@ export default class Blackwall extends Component {
         //new LoggingNetworkLayer('http://localhost:3000/graphql', config)
       );
 
-      return <App />;
+      const renderApp = ({done, error, props, retry, stale}) => {
+        if (error) {
+          return <Text>{error}</Text>;
+        } else if (props) {
+          return <App {...props} />;
+        } else {
+          return <Loading />;
+        }
+      }
+
+      return (
+        <Renderer
+          Container={App}
+          queryConfig={new AppRoute()}
+          environment={Relay.Store}
+          render={renderApp}
+          />
+      );
     }
 
     if (token === null) {

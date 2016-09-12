@@ -59,7 +59,7 @@ import com.android.build.OutputFile
  * ]
  */
 
-apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../scripts/react.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -141,6 +141,7 @@ dependencies {
     compile project(':react-native-linear-gradient')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.bugsnag:bugsnag-android:3.6.0"
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
 
