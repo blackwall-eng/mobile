@@ -1,5 +1,7 @@
 language: objective-c
 osx_image: xcode7.1
+node_js:
+  - "6"
 
 env:
   - PLATFORM=android
