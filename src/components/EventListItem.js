@@ -28,7 +28,7 @@ class EventListItem extends Component {
     }
 
     return (
-      <TouchableOpacity onPress={goToDetail}>
+      <TouchableOpacity onPress={goToDetail} >
         <View style={styles.container}>
           <View style={[styles.circle, {backgroundColor: circleColor}]} />
           <View style={styles.contentContainer}>

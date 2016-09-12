@@ -9,6 +9,6 @@
 #ifndef Constants_h
 #define Constants_h
 
-#define BUGNSAG_KEY @""
+#define BUGNSAG_KEY @"PLACEHOLDER_BUGSNAG_KEY"
 
 #endif /* Constants_h */

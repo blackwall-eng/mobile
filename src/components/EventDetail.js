@@ -56,7 +56,7 @@ class EventDetail extends Component {
               <Text style={styles.title}>{'<'}</Text>
             </TouchableOpacity>
             <View style={styles.eventListItemContainer}>
-              <EventListItem event={event} />
+              <EventListItem event={event} clickDisabled={true} />
             </View>
           </LinearGradient>
         </Image>

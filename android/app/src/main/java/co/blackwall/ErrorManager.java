@@ -1,3 +1,5 @@
+package co.blackwall;
+
 import android.util.Base64;
 import android.util.Log;
 import com.bugsnag.android.Bugsnag;
@@ -20,8 +22,6 @@ public class ErrorManager extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void identifyUser(String id, String name, String email) {
-        if (!BuildConfig.NOTIFY_ERRORS) { return; }
-
         Bugsnag.setUser(id, email, name);
     }
 
@@ -42,11 +42,6 @@ public class ErrorManager extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void reportException(String title, ReadableArray details, int exceptionId, ReadableMap errorData, Callback callback) {
-        if (!BuildConfig.NOTIFY_ERRORS) {
-          callback.invoke();
-          return;
-        }
-
         Error error = new Error(title);
         error.setStackTrace(stackTraceToStackTraceElement(details));
 
@@ -72,11 +67,24 @@ public class ErrorManager extends ReactContextBaseJavaModule {
         StackTraceElement[] stackTraceElements = new StackTraceElement[stack.size()];
         for (int i = 0; i < stack.size(); i++) {
             ReadableMap frame = stack.getMap(i);
+            String methodName = "none";
+            if (frame.hasKey("methodName")) {
+              methodName = frame.getString("methodName");
+            }
+            String fileName = "none";
+            if (frame.hasKey("file")) {
+              fileName = new File(frame.getString("file")).getName();
+            }
+
+            int lineNumber = 0;
+            if (frame.hasKey("lineNumber")) {
+              lineNumber = frame.getInt("lineNumber");
+            }
             stackTraceElements[i] = new StackTraceElement(
                     "ReactJS",
-                    frame.getString("methodName"),
-                    new File(frame.getString("file")).getName(),
-                    frame.getInt("lineNumber")
+                    methodName,
+                    fileName,
+                    lineNumber
             );
         }
         return stackTraceElements;
@@ -86,16 +94,22 @@ public class ErrorManager extends ReactContextBaseJavaModule {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < stack.size(); i++) {
             ReadableMap frame = stack.getMap(i);
-            stringBuilder.append(frame.getString("methodName"));
-            stringBuilder.append("\n    ");
-            stringBuilder.append(new File(frame.getString("file")).getName());
-            stringBuilder.append(":");
-            stringBuilder.append(frame.getInt("lineNumber"));
-            if (frame.hasKey("column") && !frame.isNull("column")) {
-                stringBuilder
-                        .append(":")
-                        .append(frame.getInt("column"));
+            if (frame.hasKey("methodName")) {
+              stringBuilder.append(frame.getString("methodName"));
+              stringBuilder.append("\n    ");
             }
+
+            if (frame.hasKey("file")) {
+              stringBuilder.append(new File(frame.getString("file")).getName());
+              stringBuilder.append(":");
+              stringBuilder.append(frame.getInt("lineNumber"));
+              if (frame.hasKey("column") && !frame.isNull("column")) {
+                  stringBuilder
+                          .append(":")
+                          .append(frame.getInt("column"));
+              }
+            }
+
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();

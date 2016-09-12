@@ -13,13 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.bugsnag.android.*;
-import Constants.java;
 
 public class MainApplication extends Application implements ReactApplication {
 
   @Override
-  public onCreate(Bundle bundle) {
-    super.onCreate(bundle);
+  public void onCreate() {
+    super.onCreate();
     Configuration config = new Configuration(Constants.BUGSNAG_KEY);
     config.setPersistUserBetweenSessions(true);
     Bugsnag.init(this, config);
@@ -35,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new LinearGradientPackage()
+          new LinearGradientPackage(),
+          new AppPackage()
       );
     }
   };

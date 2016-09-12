@@ -59,11 +59,7 @@ import com.android.build.OutputFile
  * ]
  */
 
- project.ext.react = [
-    extraPackagerArgs: ["--sourcemap-output", "$jsBundleDir/sourcemap.js"]
- ]
-
-apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../scripts/react.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
