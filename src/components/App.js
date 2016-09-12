@@ -12,8 +12,11 @@ import {
   StyleSheet,
   ScrollView,
   PanResponder,
-  Dimensions
+  Dimensions,
+  NativeModules
 } from 'react-native';
+
+const ErrorManager = NativeModules.ErrorManager;
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
@@ -27,9 +30,13 @@ import EventRoute from '../routes/EventRoute';
 
 import StarsImage from './stars.png';
 
-export default class App extends Component {
+class App extends Component {
 
   render() {
+    const { viewer } = this.props;
+
+    ErrorManager.identifyUser(viewer.userID.toString(), viewer.name, viewer.email);
+
     const navigationToScene = (route, navigator) => {
         const getContentView = () => {
           switch (route.name) {
@@ -49,7 +56,6 @@ export default class App extends Component {
                     Container={Home}
                     queryConfig={new AppRoute()}
                     environment={Relay.Store}
-
                     render={renderHome}
                     />
                 );
@@ -147,6 +153,18 @@ export default class App extends Component {
     );
   }
 }
+
+export default Relay.createContainer(App, {
+  fragments: {
+    viewer: () => Relay.QL`
+      fragment on User {
+        userID,
+        name,
+        email
+      }
+    `,
+  },
+});
 
 const styles = StyleSheet.create({
   scene: {

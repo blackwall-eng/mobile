@@ -17,6 +17,7 @@
   "dependencies": {
     "babel-preset-react-native": "1.9.0",
     "babel-relay-plugin": "0.9.3",
+    "base-64": "^0.1.0",
     "react": "~15.3.1",
     "react-native": "^0.32.0",
     "react-native-linear-gradient": "^1.5.12",

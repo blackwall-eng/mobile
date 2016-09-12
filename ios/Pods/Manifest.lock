@@ -1,0 +1,19 @@
+PODS:
+  - Bugsnag (5.2.0):
+    - KSCrash/RecordingAdvanced (~> 1.5.8)
+  - KSCrash/no-arc (1.5.11)
+  - KSCrash/Recording (1.5.11):
+    - KSCrash/no-arc
+  - KSCrash/RecordingAdvanced (1.5.11):
+    - KSCrash/Recording
+
+DEPENDENCIES:
+  - Bugsnag
+
+SPEC CHECKSUMS:
+  Bugsnag: 9b02e58455d073df74d9e8538c8e2250422f44d0
+  KSCrash: aad8a550b9b0b6aa0462e42be5720f9983020e6e
+
+PODFILE CHECKSUM: bd4513ce2c5d9b62c836e01590fb431b3c47449b
+
+COCOAPODS: 1.0.1

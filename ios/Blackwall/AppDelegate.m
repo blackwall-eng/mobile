@@ -12,10 +12,18 @@
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 
+#import <Bugsnag/Bugsnag.h>
+#import "Constants.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // Init Bugsnag
+  [Bugsnag startBugsnagWithApiKey:BUGNSAG_KEY];
+  
+  // Start Application
+  
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
