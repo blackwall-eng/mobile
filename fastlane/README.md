@@ -6,6 +6,11 @@ sudo gem install fastlane
 ```
 # Available Actions
 ## iOS
+### ios config
+```
+fastlane ios config
+```
+Setup configuration
 ### ios test
 ```
 fastlane ios test
@@ -37,6 +42,11 @@ Tag a new version e.g. fastlane version minor:true
 ----
 
 ## Android
+### android config
+```
+fastlane android config
+```
+Setup configuration
 ### android test
 ```
 fastlane android test
@@ -46,7 +56,7 @@ Run the tests
 ```
 fastlane android beta
 ```
-Deploy a new version to Crashlytics
+Deploy a new version to HockeyApp
 
 ----
 
