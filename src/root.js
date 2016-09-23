@@ -19,6 +19,7 @@ import Relay, {
 
 import Registration from './components/Registration';
 import Loading from './components/Loading';
+import ErrorScreen from './components/ErrorScreen';
 
 class LoggingNetworkLayer extends DefaultNetworkLayer {
   sendQueries(queries) {
@@ -73,7 +74,8 @@ export default class Blackwall extends Component {
 
       const renderApp = ({done, error, props, retry, stale}) => {
         if (error) {
-          return <Text>{error}</Text>;
+          console.log('error', error);
+          return <ErrorScreen />;
         } else if (props) {
           return <App {...props} />;
         } else {
