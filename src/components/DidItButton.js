@@ -20,13 +20,14 @@ export default class DidItButton extends Component {
 
     const outerCircleStyle = [styles.outerCircle, {backgroundColor: circleColor}];
     const shadowCircleStyle = [styles.shadowCircle, {backgroundColor: circleColor}];
+    const innerCircleStyle = [styles.innerCircle, {backgroundColor: circleColor}];
 
     return (
       <TouchableOpacity style={shadowCircleStyle} onPress={onPress}>
         <View style={styles.shadowCircleWhiteForeground}>
           <View style={outerCircleStyle}>
-            <View style={styles.innerCircle}>
-              <Text style={{color: circleColor, fontSize: 20, backgroundColor: 'transparent'}}>I did it!</Text>
+            <View style={innerCircleStyle}>
+              <Text style={{color: 'white', fontSize: 20, backgroundColor: 'transparent'}}>I did it!</Text>
             </View>
           </View>
         </View>

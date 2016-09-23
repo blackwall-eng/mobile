@@ -23,6 +23,7 @@
     "react-native-linear-gradient": "^1.5.12",
     "react-native-parallax-scroll-view": "^0.19.0",
     "react-native-scrollable-tab-view": "0.5.5",
+    "react-native-svg": "^4.3.1",
     "react-relay": "0.9.3"
   },
   "devDependencies": {
