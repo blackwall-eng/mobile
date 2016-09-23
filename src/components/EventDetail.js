@@ -14,8 +14,11 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 import NoImage from './noimagefound.jpg';
+import FinishedEventCelebrationImage from './FinishedEventCelebration.png';
 
 import EventListItem from './EventListItem';
+
+import BackButton from './BackButton';
 
 import Step from './Step';
 import StepMutation from '../mutations/StepMutation';
@@ -32,6 +35,8 @@ class EventDetail extends Component {
     const image = event.image ? {uri: event.image} : NoImage;
 
     const categoryColor = event.categories.edges[0].node.color;
+
+    const isLastStep = story.currentStepNumber === event.numberOfSteps;
 
     const onStepDone = () => {
       this.props.relay.commitUpdate(
@@ -52,9 +57,7 @@ class EventDetail extends Component {
       <View style={styles.container}>
         <Image source={image} style={styles.image}>
           <LinearGradient colors={['transparent','transparent', 'white']} style={imageForegroundStyle}>
-            <TouchableOpacity style={styles.backButton} onPress={goBack}>
-              <Text style={styles.title}>{'<'}</Text>
-            </TouchableOpacity>
+            <BackButton style={styles.backButton} onPress={goBack} />
             <View style={styles.eventListItemContainer}>
               <EventListItem event={event} clickDisabled={true} />
             </View>
@@ -68,7 +71,7 @@ class EventDetail extends Component {
               <Text style={{marginHorizontal: 5}}>Nice</Text>
             </View>
           ) : null }
-          <Step step={story.currentStep} color={categoryColor} onDone={onStepDone} />
+          <Step step={story.currentStep} color={categoryColor} onDone={onStepDone} isLastStep={isLastStep} />
           <Text style={{marginBottom: 20}}>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
       </View>
@@ -81,7 +84,7 @@ class EventDetail extends Component {
           <View style={[styles.overlayContainer, {backgroundColor: categoryColor}]} />
           <TouchableOpacity style={styles.overlayContentContainer} onPress={completeAndGoBack}>
             {/* This view should be replaced with the waving hand image */}
-            <View style={{height: 150, width: 150, backgroundColor: 'white'}}/>
+            <Image style={{height: 150, width: 150, resizeMode: 'cover'}} source={FinishedEventCelebrationImage} />
             <Text style={styles.overlayText}>Remember this experience until next time</Text>
           </TouchableOpacity>
         </View>
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   backButton: {
-    marginTop: 25,
+    marginTop: 30,
     marginLeft: 20,
     height: 60,
     width: 60,

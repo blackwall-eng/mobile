@@ -13,17 +13,32 @@ import FilterMutation from '../mutations/FilterMutation';
 
 class FilterListItem extends Component {
 
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      appearActive: false
+    };
+  };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({appearActive: false});
+  }
+
   render() {
     const { category, active, viewer, color } = this.props;
 
+    const appearActive = active || this.state.appearActive;
+
     const pressed = () => {
+      this.setState({appearActive: !this.state.appearActive});
       this.props.relay.commitUpdate(
         new FilterMutation(this.props)
       );
     }
 
-    const textStyle = active ? [styles.element, {color: color }] : styles.element;
-    const containerStyle = active ? [styles.container, styles.elementActive] : styles.container;
+    const textStyle = appearActive ? [styles.element, {color: color }] : styles.element;
+    const containerStyle = appearActive ? [styles.container, styles.elementActive] : styles.container;
 
     return (
       <View>
