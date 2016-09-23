@@ -33,6 +33,8 @@ class EventDetail extends Component {
 
     const categoryColor = event.categories.edges[0].node.color;
 
+    const isLastStep = story.currentStepNumber === event.numberOfSteps;
+
     const onStepDone = () => {
       this.props.relay.commitUpdate(
         new StepMutation(this.props)
@@ -68,7 +70,7 @@ class EventDetail extends Component {
               <Text style={{marginHorizontal: 5}}>Nice</Text>
             </View>
           ) : null }
-          <Step step={story.currentStep} color={categoryColor} onDone={onStepDone} />
+          <Step step={story.currentStep} color={categoryColor} onDone={onStepDone} isLastStep={isLastStep} />
           <Text style={{marginBottom: 20}}>{'•'}{'•'}{'•'}{'•'}</Text>
         </View>
       </View>

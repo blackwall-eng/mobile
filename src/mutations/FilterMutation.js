@@ -20,10 +20,12 @@ export default class FilterMutation extends Relay.Mutation {
     category: () => Relay.QL`
       fragment on Category {
         id,
-        name
+        name,
+        color
       }
     `
   };
+
   getMutation() {
     // Here, viewerDoesLike is guaranteed to be available.
     // We can use it to make this mutation polymorphic.
@@ -66,6 +68,27 @@ export default class FilterMutation extends Relay.Mutation {
         }
       `;
   }
+
+  /*getOptimisticResponse() {
+    const { viewer, category } = this.props;
+
+    var newActiveFilters = [];
+    if (viewer.activeFilterCategories.edges.find(n => n.node.name === category.name) === undefined) {
+      // Currently not in the list so add it
+      newActiveFilters = viewer.activeFilterCategories.edges.concat([{node: {id: category.id, color: category.color, name: category.name}}]);
+    } else {
+      newActiveFilters = viewer.activeFilterCategories.edges.filter(n => n.node.name !== category.name)
+    }
+
+    return {
+      viewer: {
+        id: viewer.id,
+        activeFilterCategories: {
+          edges: newActiveFilters
+        }
+      }
+    };
+  }*/
 
   getConfigs() {
     const { viewer, category } = this.props;
