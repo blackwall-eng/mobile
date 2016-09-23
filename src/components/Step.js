@@ -11,7 +11,7 @@ import TextStep from './steps/TextStep';
 class Step extends Component {
 
   render() {
-    const { step, color, onDone } = this.props;
+    const { step, color, onDone, isLastStep } = this.props;
 
     if (!step || !step.__typename) {
       return null;
@@ -19,7 +19,7 @@ class Step extends Component {
 
     switch (step.__typename) {
       case 'TextStep':
-        return <TextStep step={step} color={color} onDone={onDone} />;
+        return <TextStep step={step} color={color} onDone={onDone} isLastStep={isLastStep} />;
 
       default:
         return null;

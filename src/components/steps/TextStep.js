@@ -9,18 +9,21 @@ import {
 } from 'react-native';
 
 import CheckButton from '../CheckButton';
+import DidItButton from '../DidItButton';
 
 class TextStep extends Component {
 
   render() {
-    const { step, color, onDone } = this.props;
+    const { step, color, onDone, isLastStep } = this.props;
+
+    const completeStepButton = isLastStep ? <DidItButton color={color} onPress={onDone} /> : <CheckButton color={color} onPress={onDone} />;
 
     return (
       <View style={styles.container}>
         <Text style={[styles.text, {color: color}]}>
           {step.text}
         </Text>
-        <CheckButton color={color} onPress={onDone} />
+        {completeStepButton}
       </View>
     );
   }
