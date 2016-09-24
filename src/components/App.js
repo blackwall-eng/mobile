@@ -24,6 +24,7 @@ import Home from './Home';
 import Filter from './Filter';
 import EventDetail from './EventDetail';
 import Loading from './Loading';
+import ErrorScreen from './ErrorScreen';
 
 import AppRoute from '../routes/AppRoute';
 import EventRoute from '../routes/EventRoute';
@@ -43,7 +44,7 @@ class App extends Component {
               case 'Home':
                 const renderHome = ({done, error, props, retry, stale}) => {
                   if (error) {
-                    return <Text>{error}</Text>;
+                    return <ErrorScreen />;
                   } else if (props) {
                     return <Home navigator={navigator} {...props} />;
                   } else {
@@ -62,7 +63,7 @@ class App extends Component {
               case 'Filter':
                 const renderFilter = ({done, error, props, retry, stale}) => {
                   if (error) {
-                    return <Text>{error}</Text>;
+                    return <ErrorScreen />;
                   } else if (props) {
                     return <Filter navigator={navigator} {...props} />;
                   } else {
@@ -81,7 +82,7 @@ class App extends Component {
                 const eventID = route.eventID;
                 const renderEventDetail = ({done, error, props, retry, stale}) => {
                   if (error) {
-                    return <Text>{error}</Text>;
+                    return <ErrorScreen />;
                   } else if (props) {
                     return <EventDetail navigator={navigator} {...props} />;
                   } else {
