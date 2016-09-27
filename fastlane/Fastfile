@@ -62,8 +62,8 @@ platform :ios do
 
     badge(dark: true, shield: "#{get_version_number(xcodeproj: XCODEPROJ)}-#{get_build_number(xcodeproj: XCODEPROJ)}", shield_no_resize: true)
 
-    ## Fetch adhoc provisioning profile
-    match(type: "adhoc")
+    ## Fetch appstore provisioning profile
+    match(type: "appstore")
 
     gym(
       clean: true,
@@ -94,7 +94,7 @@ platform :ios do
     )
 
     # deploy to testflight
-    # pilot
+    testflight
   end
 
   desc "Deploy a new version to the App Store"
