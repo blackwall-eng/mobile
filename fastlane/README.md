@@ -28,9 +28,9 @@ fastlane ios beta
 Submit a new Beta Build to Apple TestFlight and Fabric
 
 This will also make sure the profile is up to date
-### ios appstore
+### ios production
 ```
-fastlane ios appstore
+fastlane ios production
 ```
 Deploy a new version to the App Store
 ### ios version
