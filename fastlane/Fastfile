@@ -60,7 +60,7 @@ platform :ios do
       xcodeproj: XCODEPROJ
     )
 
-    badge(dark: true, shield: "#{get_version_number(xcodeproj: XCODEPROJ)}-#{get_build_number(xcodeproj: XCODEPROJ)}", shield_no_resize: true)
+    badge(no_badge: true, shield: "#{get_version_number(xcodeproj: XCODEPROJ)}-#{get_build_number(xcodeproj: XCODEPROJ)}", shield_no_resize: true)
 
     ## Fetch appstore provisioning profile
     match(type: "appstore")
