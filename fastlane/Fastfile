@@ -86,15 +86,8 @@ platform :ios do
   lane :beta do
     prepare_deploy
 
-    # deploy to HockeyApp
-    hockey(
-        api_token: ENV["HOCKEY_API_TOKEN_IOS"],
-        ipa: FASTLANE_IPA_PATH,
-        notes: changelog
-    )
-
     # deploy to testflight
-    testflight
+    testflight(changelog: changelog)
   end
 
   desc "Deploy a new version to the App Store"
