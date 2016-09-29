@@ -66,13 +66,11 @@ class EventDetail extends Component {
         <View style={styles.stepContainer}>
           { story.currentStepNumber === 1 ? (
             <View style={styles.labelRow}>
-              <Text style={{marginHorizontal: 5}}>Sun</Text>
-              <Text style={{marginHorizontal: 5}}>Multi</Text>
-              <Text style={{marginHorizontal: 5}}>Nice</Text>
+              {/* Place the icons in the future here */}
             </View>
           ) : null }
           <Step step={story.currentStep} color={categoryColor} onDone={onStepDone} isLastStep={isLastStep} />
-          <Text style={{marginBottom: 20}}>{'•'}{'•'}{'•'}{'•'}</Text>
+          <Text style={{marginBottom: 20}}> {/* Placeholder for the dots */}</Text>
         </View>
       </View>
     );
