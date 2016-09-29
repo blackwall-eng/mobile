@@ -60,8 +60,6 @@ platform :ios do
       xcodeproj: XCODEPROJ
     )
 
-    badge(no_badge: true, shield: "#{get_version_number(xcodeproj: XCODEPROJ)}-#{get_build_number(xcodeproj: XCODEPROJ)}", shield_no_resize: true)
-
     ## Fetch appstore provisioning profile
     match(type: "appstore")
 
@@ -73,15 +71,9 @@ platform :ios do
       output_directory: FASTLANE_IPA_DIR,
       output_name: IPA_NAME,
     )
-
-    # git_add(path: ["."])
-    # git_commit(
-    #  path: ["."],
-    #  message: "#{APP_DISPLAYNAME} #{version} (#{build})",
-    # )
   end
 
-  desc "Submit a new Beta Build to Apple TestFlight and Fabric"
+  desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
     prepare_deploy
