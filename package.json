@@ -19,7 +19,7 @@
     "babel-relay-plugin": "0.9.3",
     "base-64": "^0.1.0",
     "react": "^15.3.2",
-    "react-native": "^0.33.1",
+    "react-native": "^0.34.1",
     "react-native-linear-gradient": "^1.5.12",
     "react-native-parallax-scroll-view": "^0.19.0",
     "react-native-scrollable-tab-view": "0.5.5",
@@ -27,10 +27,10 @@
     "react-relay": "0.9.3"
   },
   "devDependencies": {
-    "babel-cli": "6.14.0",
-    "babel-core": "6.14.0",
+    "babel-cli": "6.16.0",
+    "babel-core": "6.17.0",
     "node-fetch": "^1.6.1",
-    "@kadira/react-native-storybook": "^2.1.2"
+    "@kadira/react-native-storybook": "^2.1.3"
   },
   "engines": {
     "npm": ">=3"
