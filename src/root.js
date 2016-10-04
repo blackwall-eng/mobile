@@ -68,7 +68,7 @@ export default class Blackwall extends Component {
       };
 
       Relay.injectNetworkLayer(
-        new LoggingNetworkLayer('https://blackwall-cerebro.herokuapp.com/graphql', config)
+        new LoggingNetworkLayer('https://api.blackwall.co/backend/cerebro/graphql', config)
         //new LoggingNetworkLayer('http://localhost:3000/graphql', config)
       );
 
