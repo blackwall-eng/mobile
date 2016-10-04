@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "babel-cli": "6.16.0",
-    "babel-core": "6.17.0",
+    "babel-core": "6.16.0",
     "node-fetch": "^1.6.1",
     "@kadira/react-native-storybook": "^2.1.3"
   },
