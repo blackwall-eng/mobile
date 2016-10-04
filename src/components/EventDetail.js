@@ -56,7 +56,7 @@ class EventDetail extends Component {
     const standardView = (
       <View style={styles.container}>
         <Image source={image} style={styles.image}>
-          <LinearGradient colors={['transparent','transparent', 'white']} style={imageForegroundStyle}>
+          <LinearGradient colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0)', 'white']} style={imageForegroundStyle}>
             <BackButton style={styles.backButton} onPress={goBack} />
             <View style={styles.eventListItemContainer}>
               <EventListItem event={event} clickDisabled={true} />
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   eventListItemContainer: {
     marginHorizontal: 20,
-    marginBottom: 35,
+    marginBottom: 15,
     shadowRadius: 5,
     shadowOpacity: 0.3,
     shadowColor: 'black',
